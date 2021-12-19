@@ -291,7 +291,7 @@ a:focus {
 }
 
 .title-logo {
-  position:absolute;
+  position:absolute !important;
 }
 
 .bio {
