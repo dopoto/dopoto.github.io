@@ -20,11 +20,27 @@ So — how to solve this problem then: “get a list of all *.spec.ts files in m
 
 Luckily, there’s a Visual Studio Code extension for that:
 [ReverseSearch](https://marketplace.visualstudio.com/items?itemName=DanishSarwar.reverse-search). 
-Once installed, you can simply:
-- enter a string
-- choose files to include in the ‘reverse search’ (optional)
-- choose files to exclude from the ‘reverse search’ (optional)
+Once installed, do this:
 
-The files not containing the string will be neatly displayed in a reverse-search output window:
+1. Press Ctrl + P, open Reverse Search:
+
+![](./1.png)
+
+2. Enter a string. We'll use "NO_ERRORS_SCHEMA" here:
+
+![](./2.png)
+
+3. Choose files to include. We'll use "**/*.component.spec.ts" here:
+
+![](./3.png)
+
+4. Choose files to exclude. We'll use "!**/*.component.spec.ts" here:
+
+![](./4.png)
+
+5. Done! Matching files will be presented in the Output panel:
+
+![](./5.png)
+
 
 Cool, right?
