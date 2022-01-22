@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[Gatsby Starter Blog RSS Feed]]></description><link>https://dopoto.github.io</link><generator>GatsbyJS</generator><lastBuildDate>Sat, 22 Jan 2022 07:54:26 GMT</lastBuildDate><item><title><![CDATA[Visual Studio Code — finding all files that *do not* contain a certain string]]></title><description><![CDATA[I was running a Karma test suite containing a few hundred unit tests, when I got into this error: Now, I happen to know that this is caused…]]></description><link>https://dopoto.github.io/2021204-vs-code-find-files-that-do-not-contain-a-string/</link><guid isPermaLink="false">https://dopoto.github.io/2021204-vs-code-find-files-that-do-not-contain-a-string/</guid><pubDate>Sat, 04 Dec 2021 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;I was running a Karma test suite containing a few hundred unit tests, when I got into this error:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;Can’t bind to ‘some&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;property’ since it isn’t a 
+known property &lt;span class=&quot;token keyword&quot;&gt;of&lt;/span&gt; ‘some&lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;component’&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Now, I happen to know that this is caused by a missing [NO_ERRORS_SCHEMA] in one or more of the spec files.&lt;/p&gt;
+&lt;p&gt;But — the Karma tests runner does not provide any info about the actual names of the files having this issue.&lt;/p&gt;
+&lt;p&gt;So — how to solve this problem then: “get a list of all *.spec.ts files in my project that do not contain the ‘NO_ERRORS_SCHEMA’ string”?&lt;/p&gt;
+&lt;p&gt;Luckily, there’s a Visual Studio Code extension for that:
+&lt;a href=&quot;https://marketplace.visualstudio.com/items?itemName=DanishSarwar.reverse-search&quot;&gt;ReverseSearch&lt;/a&gt;.
+Once installed, do this:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Press Ctrl + P, open Reverse Search:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 625px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/63e472b81b58586a5b258394d22b47b0/80d71/1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 14.556962025316455%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAIAAAAcOLh5AAAACXBIWXMAAA7CAAAOwgEVKEqAAAAAg0lEQVQI14XKTQ6CMBBAYe5/MaNBWuz0T6YMQqeCrdYjGKJ7k7f4Fq+J1D5YlQSZ/6YKQ0k6J50ZmNrGjTYkQ6tbnsNcBn6HWEOsGCvyF6+fuQbaHPI+m0net7XRFsB3euiUO3WXgw1CX1sbpKfejcLg2aAwuA+eelzAk8RZSXOcbuMHTQab33qKPdAAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;1&quot;
+        title=&quot;1&quot;
+        src=&quot;/static/63e472b81b58586a5b258394d22b47b0/80d71/1.png&quot;
+        srcset=&quot;/static/63e472b81b58586a5b258394d22b47b0/c26ae/1.png 158w,
+/static/63e472b81b58586a5b258394d22b47b0/6bdcf/1.png 315w,
+/static/63e472b81b58586a5b258394d22b47b0/80d71/1.png 625w&quot;
+        sizes=&quot;(max-width: 625px) 100vw, 625px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;Enter a string. We’ll use “NO_ERRORS_SCHEMA” here:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 614px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/d8351dce80589a5e2aa915a14f281295/e9131/2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 12.025316455696203%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAA7CAAAOwgEVKEqAAAAAPklEQVQI143GQQqAQAwEwf3/P53MJJiNWb2LePUgFE2P8K2mZ2qtvM75X+4cHgGAEswAGPlEet/I7j6+VNUNuElv1wLGhL8AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;2&quot;
+        title=&quot;2&quot;
+        src=&quot;/static/d8351dce80589a5e2aa915a14f281295/e9131/2.png&quot;
+        srcset=&quot;/static/d8351dce80589a5e2aa915a14f281295/c26ae/2.png 158w,
+/static/d8351dce80589a5e2aa915a14f281295/6bdcf/2.png 315w,
+/static/d8351dce80589a5e2aa915a14f281295/e9131/2.png 614w&quot;
+        sizes=&quot;(max-width: 614px) 100vw, 614px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;ol start=&quot;3&quot;&gt;
+&lt;li&gt;Choose files to include. We’ll use ”**/*.component.spec.ts” here:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 618px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/948a472026a69da3c9a44a5ec75c714d/6e6fb/3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 12.658227848101264%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAADCAIAAAAcOLh5AAAACXBIWXMAAA7CAAAOwgEVKEqAAAAAYUlEQVQI133IywqAIBCFYd//ZbJXqZa1cMZaaeh4KwyKobYGH5yfI+ZBzkP3GSXjlsvUs/GPcBR9SLsLzkcKmWL2lCjkfNRy1HLWet0tAhG2VQMojaAROHjU+yAoY41teABn4Z/MdU6BxQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;3&quot;
+        title=&quot;3&quot;
+        src=&quot;/static/948a472026a69da3c9a44a5ec75c714d/6e6fb/3.png&quot;
+        srcset=&quot;/static/948a472026a69da3c9a44a5ec75c714d/c26ae/3.png 158w,
+/static/948a472026a69da3c9a44a5ec75c714d/6bdcf/3.png 315w,
+/static/948a472026a69da3c9a44a5ec75c714d/6e6fb/3.png 618w&quot;
+        sizes=&quot;(max-width: 618px) 100vw, 618px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;ol start=&quot;4&quot;&gt;
+&lt;li&gt;Choose files to exclude. We’ll use ”!**/*.component.spec.ts” here:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 613px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/ac85d11565f16b4d041b00c392c20855/5754a/4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 11.39240506329114%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAACCAIAAADXZGvcAAAACXBIWXMAAA7CAAAOwgEVKEqAAAAARklEQVQI13XHQQqAMAwEQP//TSG72zZJa/oAQY8izGWO3s4M+rBXBjMYDh82k7v8j7sdrXcAUgMJkBJAqdkTSlX7qvqaa91yQ29G9DFwzAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;4&quot;
+        title=&quot;4&quot;
+        src=&quot;/static/ac85d11565f16b4d041b00c392c20855/5754a/4.png&quot;
+        srcset=&quot;/static/ac85d11565f16b4d041b00c392c20855/c26ae/4.png 158w,
+/static/ac85d11565f16b4d041b00c392c20855/6bdcf/4.png 315w,
+/static/ac85d11565f16b4d041b00c392c20855/5754a/4.png 613w&quot;
+        sizes=&quot;(max-width: 613px) 100vw, 613px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;ol start=&quot;5&quot;&gt;
+&lt;li&gt;Done! Matching files will be presented in the Output panel:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 613px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/e9a716cf2fa1109c7f42d7579f7ede64/5754a/5.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 21.51898734177215%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAECAIAAAABPYjBAAAACXBIWXMAAA7CAAAOwgEVKEqAAAAAnklEQVQI1yWGW27DQAzEfP8zBmgRb7qWNHqMNnZ+C7cEQXDLjKr4egwVhKObGeHumXGeb1OV45A5q6pXRyYAkt1NcosIVTyfx5w2xo8ogAASnuQSsX1/jZdEsti8re5ef2xVbUYDzcqMouXR8GVojwVf+8CUMjS81zqv6zrPu+6+RVI1D0nR+hdOQ4tSjR73GDhmfu8+pURZXJ/PZWa/ASjeknAL3BoAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;5&quot;
+        title=&quot;5&quot;
+        src=&quot;/static/e9a716cf2fa1109c7f42d7579f7ede64/5754a/5.png&quot;
+        srcset=&quot;/static/e9a716cf2fa1109c7f42d7579f7ede64/c26ae/5.png 158w,
+/static/e9a716cf2fa1109c7f42d7579f7ede64/6bdcf/5.png 315w,
+/static/e9a716cf2fa1109c7f42d7579f7ede64/5754a/5.png 613w&quot;
+        sizes=&quot;(max-width: 613px) 100vw, 613px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Cool, right?&lt;/p&gt;</content:encoded></item><item><title><![CDATA[RemoteBeep — a demo using .NET 6, SignalR, Angular 13 and NGRX]]></title><description><![CDATA[Here’s a quick demo I’ve been playing with:
+https://github.com/dopoto/RemoteBeep It showcases how to: create a minimal .NET 6 SignalR hub…]]></description><link>https://dopoto.github.io/2021111-remote-beep-demo-net-6-signalr-angular-13-ngrx copy/</link><guid isPermaLink="false">https://dopoto.github.io/2021111-remote-beep-demo-net-6-signalr-angular-13-ngrx copy/</guid><pubDate>Thu, 11 Nov 2021 22:40:32 GMT</pubDate><content:encoded>&lt;p&gt;Here’s a quick demo I’ve been playing with:
+&lt;a href=&quot;https://github.com/dopoto/RemoteBeep&quot;&gt;https://github.com/dopoto/RemoteBeep&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;It showcases how to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;create a minimal .NET 6 SignalR hub&lt;/li&gt;
+&lt;li&gt;send and receive events using SignalR in Angular&lt;/li&gt;
+&lt;li&gt;manage application state using NGRX and NGRX effects&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can check it out here:
+&lt;a href=&quot;https://remotebeepstorage.z6.web.core.windows.net&quot;&gt;https://remotebeepstorage.z6.web.core.windows.net&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[Deploying a .NET 6 web application to Azure from Visual Studio 2022]]></title><description><![CDATA[Prerequisites Set up a .NET 6 app and ensure that it’s running locally — see https://docs.microsoft.com/en-us/visualstudio/javascript…]]></description><link>https://dopoto.github.io/20210921-deploy-net-6-app-to-azure/</link><guid isPermaLink="false">https://dopoto.github.io/20210921-deploy-net-6-app-to-azure/</guid><pubDate>Tue, 21 Sep 2021 23:46:37 GMT</pubDate><content:encoded>&lt;h1&gt;Prerequisites&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;Set up a .NET 6 app and ensure that it’s running locally — see &lt;a href=&quot;https://docs.microsoft.com/en-us/visualstudio/javascript/tutorial-asp-net-core-with-angular?view=vs-2022&quot;&gt;https://docs.microsoft.com/en-us/visualstudio/javascript/tutorial-asp-net-core-with-angular?view=vs-2022&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Set up a free Azure account at &lt;a href=&quot;https://azure.microsoft.com/en-us/free/&quot;&gt;https://azure.microsoft.com/en-us/free/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Steps&lt;/h1&gt;
+&lt;p&gt;Right-click your backend project, hit Publish…
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/5aff127910ecfa894bef9346e0c03ee6/487bb/1.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 53.16455696202532%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAACAElEQVQoz33LzW/ScADG8f6LXnQe5uu2sPkSwcXExJ08mXgwWSDZi8k2l+lMPI4AUTuwK2NaCgKjMNqur/S9pVDaHy3t3EgMWaLJJ0+eyxdq0uA/6iQot/1yy8eIidH0gVbfI//ybuNo9yNcyB0cZtMonC3C2eN8DoVzKJy9koFuPUzOzCVn5lLX3J5P3biz+vrNHnac/55J//ia+f2zgHxLV5EvtVK6jn5uYjB0/8nm7NL67OLa7OL6tLuPNm4+SL5N5fiuTTKaIDuiMpR0YNrAtH3T9sz+GLr3ePPpy73Eyn781adnU+Ir+0svdtc+IHiNREu15pkkqkAxA8kIZMOXLzeAFhJbRYzFazzFDRkRXEPz7lGFR8o0ckKWcK7RsTqC1+FdUvBIwYNiz3falN2hTVkfa1akWZFiTNHHXVnjeYbjur2+E0ZREEZBEPpXoNjyDsnYFGPwosMJA04YqMZY70V6LzLsSNIAK6jnHNdq00JX101HVnuW7bkgGnohtJDYLmBasaxUiGG17VZbboMKGqQ/cUq6rKgTFFurEx2SMyyn1/f6ju+C0AUhNB/fOoD5w6KYP1EQzER+6Shu4S0fJwBO+BVieEpJZ+c8RXGqbtsDD/jRpLyMY8vbFNOnWZMVBormyypQNF+3ognFCPiuIQiSbg5G48gbhX/LP/EF3c4WA61y648AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;1&quot;
+        title=&quot;1&quot;
+        src=&quot;/static/5aff127910ecfa894bef9346e0c03ee6/f058b/1.png&quot;
+        srcset=&quot;/static/5aff127910ecfa894bef9346e0c03ee6/c26ae/1.png 158w,
+/static/5aff127910ecfa894bef9346e0c03ee6/6bdcf/1.png 315w,
+/static/5aff127910ecfa894bef9346e0c03ee6/f058b/1.png 630w,
+/static/5aff127910ecfa894bef9346e0c03ee6/487bb/1.png 698w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Choose Azure in the Target step
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c99c3525d2b3d6eb82648015729421cd/8c557/2.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 70.88607594936708%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAAsTAAALEwEAmpwYAAABn0lEQVQoz42S226bQBRF+f/f6ktfkkht4rRNHd+wMcPcL+cyA6bCJKllK1K2ltAgtDT7oFP5CACElEs/5DLBuXwF42LlfDg2B+9d3xdmyjmP42n8QohLZVzspFU6COk6aTppEjBxfwlSQeovKMw9IFfa4WoXa9EL1f9c87cf9vvd7uFZPyzU/ZO6e5T3C/W8ot9r/vXBihZLFAoq4jKO4+nctBZh3djNtlmu6j9/N4ejViZJHZVJyiRtQZsJ4zDhEBN9yJPdWSOU1EqG4J0zCIkQiAAxISRmJJpemXCamfhNnu8uIMF3Upl0DiKmlGKMiHj7wxD5svZJ+NI6bJtD0zQhBEQEAGa+0uaaV/IoHQhlhWiFELOcUiKi03s+u3n6sG39UciuE20rvPezHELw3htjrLXnLbiR5zqQhwC039dN08zTxjgt4DAMn8yc/8v9cOqHIZ/D7yklXxV+2zDKlTaBKRMyIQMgACLQtO3IZygltD5aD8aDnYjOpxBAm1BtayE63Yob2vmg6kYuN8dVLV/W0/N1e9zuu9fNYb1r/wHaNiQ7prmqoQAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;2&quot;
+        title=&quot;2&quot;
+        src=&quot;/static/c99c3525d2b3d6eb82648015729421cd/f058b/2.png&quot;
+        srcset=&quot;/static/c99c3525d2b3d6eb82648015729421cd/c26ae/2.png 158w,
+/static/c99c3525d2b3d6eb82648015729421cd/6bdcf/2.png 315w,
+/static/c99c3525d2b3d6eb82648015729421cd/f058b/2.png 630w,
+/static/c99c3525d2b3d6eb82648015729421cd/8c557/2.png 700w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Let’s go with Azure App Service here
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/59b176249702cd22f6a337790af9c9e4/8c557/3.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 70.25316455696203%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAAsTAAALEwEAmpwYAAABrElEQVQoz32Sa2/bIBSG/f//1S6aNlVr+6HJJm2zHS+xARswcLgcwPbkeFXTpNujRwgQr14diUKDc94HjClPMW3mv8a8HTGmWzXYQmnTtq2UY0pxI6WYU8pp3SCGlNLyFnmaCrAOQAfvnAUhFGWCUE6Z6MhAmaBMCGkCTj7kKzHmwkDo6CgVIi5PNbx75J/uqg9fqvefy4939eN3+bDnX5/6+91wv+MPe7H/5b6VfvfT8RELZUJz0vVR9SL9Zrbq1KHpyrqtDi3rlRjtwA2XIEa7aX12YbI+B0xFwHWkeV7HEOA7CQMjlBLGiBAcMXhvg3cheAweMczb02VOKRcB47Is07Re9MqdOPSMEkIpZQPn1joL4JwDAGMMnFFKjWp0Prxq7k1gUveMEUKOxyMAeO+ttdsKAM+1K/Hc/BKuuK+YFj3rurXaPxNCcGf+F25krAY30I4yRik1xly+vuIlfM7P0zb6a+YLrsMYL8L/7rkl5VwQNiJG59B7tNbfCuCUhlE7oazUTipQ2ioN2riibhjr5fYT37SjvG66puU/DrQ+DeWBNKe+PLTHtv8DtbUiKC+SKt0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;3&quot;
+        title=&quot;3&quot;
+        src=&quot;/static/59b176249702cd22f6a337790af9c9e4/f058b/3.png&quot;
+        srcset=&quot;/static/59b176249702cd22f6a337790af9c9e4/c26ae/3.png 158w,
+/static/59b176249702cd22f6a337790af9c9e4/6bdcf/3.png 315w,
+/static/59b176249702cd22f6a337790af9c9e4/f058b/3.png 630w,
+/static/59b176249702cd22f6a337790af9c9e4/8c557/3.png 700w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Create a Resource Group and a Hosting Plan here, if you don’t have them already.
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/c7ab7dd4ca22fb3547afaf78281432eb/8c557/4.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 44.30379746835443%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAABEUlEQVQoz3WRW3LCMAxFs//NdQulkJCn7ciyZEsy6aRAKbQ9cz70cTWjR+PDmhKJmqiVIqr2rK4xTQGJcyKeHfgAxFqkEksDACUzYvQhMPPlsr3gI78dHEBMxLQHbgmrtXEBE9Vh8v24IMmLiQUiEUa1esXuiGgzjKEfIayIiTgLlyeJSxiX92O3OEAqmB5GzA0zi5Scc4yxFBHRh2oJMBxOh2M3jC7Afpyr+1wsjVndtk3NrFb9jWlkWQFXwEQ5F/2WxW7NRSTnvIfv1Gr7fqrMZfuL/WD7Msjewzy7sAIihTXODqYFJgfzss4u/tt8as9t17fd0J2Hr6I/tf2xPV/9OHXD5BLly48fcjEfc4z8Cb4aB/atA73xAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;4&quot;
+        title=&quot;4&quot;
+        src=&quot;/static/c7ab7dd4ca22fb3547afaf78281432eb/f058b/4.png&quot;
+        srcset=&quot;/static/c7ab7dd4ca22fb3547afaf78281432eb/c26ae/4.png 158w,
+/static/c7ab7dd4ca22fb3547afaf78281432eb/6bdcf/4.png 315w,
+/static/c7ab7dd4ca22fb3547afaf78281432eb/f058b/4.png 630w,
+/static/c7ab7dd4ca22fb3547afaf78281432eb/8c557/4.png 700w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Let’s just skip the API Management part
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/982f1429a2bd34e1e8d6d2739b4bc905/8c557/5.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 70.25316455696203%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAAsTAAALEwEAmpwYAAABiklEQVQoz42SW2vcMBCF/f//WZ9KCu1DQuNssvbKF1mW5iaNZLsooRtIsrSHj0FCnDMDmgaQWWJMmsuWS8mlaD1sOZdK2TSXpPkT6jw0CHTp+9U5VU0pxRjTq65XVT2+kkRt3BrGYUDEEAIRMpEwIwIzIQIiCPNNM3Pkv88eaJgW6wKJUswk+bUqUPoA1hobiSkEjwDHcczOm2kdbZhXtJ6vLF4+E1Aa4mjGZQ2S8mFdmJfgQTzGfwIojYf48978+NWfeu5H6CcYLP0PLnAdW5iIYN83QJrmZbYuAElUlnSD6IA8SBPj+08wUQg+BB9FimpOKaveApDfzfu+q2p+k2re98ptfTTnnLe3Jds2neZ87rTmfK1qTpqvYwOg9Z6GoXy/Ky/nDFBb1LSybeU4ylY3uNT8rUhMzfN5VlVmEYkAuAZA62S0UnaJKpKIEyAvq7wYWrwAMqAgSXdZmscnM4yLGawZ7DAulcmZ2ZnLbMxsBttd5vbU37fjt7vuoR3bU/d8Hh/b7veT+QNWTCSJKO99LAAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;5&quot;
+        title=&quot;5&quot;
+        src=&quot;/static/982f1429a2bd34e1e8d6d2739b4bc905/f058b/5.png&quot;
+        srcset=&quot;/static/982f1429a2bd34e1e8d6d2739b4bc905/c26ae/5.png 158w,
+/static/982f1429a2bd34e1e8d6d2739b4bc905/6bdcf/5.png 315w,
+/static/982f1429a2bd34e1e8d6d2739b4bc905/f058b/5.png 630w,
+/static/982f1429a2bd34e1e8d6d2739b4bc905/8c557/5.png 700w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Choose the first option here — Publish.
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/6b91f4a59464abc8cf3f03fe83b40da9/8c557/6.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 70.88607594936708%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAOCAIAAACgpqunAAAACXBIWXMAAAsTAAALEwEAmpwYAAABXklEQVQoz5WRW0/jMBCF/f9/FU8LD1RCqoRo0ksSkTZJU+cy9lzs2kbdrhACAdujT7Ln4fiMZ9RskJhZnD8H58/i3vEsjsV/xzCBmsEc9vtpHL33zjnv3d9TQgjpR7F4ZSwZAGMMAPR6ajvddn3THvUwI4m44HwUFz7hfEDyCkkAwPtzSmlZ4N2ifXjc3i+qP4/F/aJcroan536ZjXnlspJXO7rysqXuRMoSa60BTEqxGaSodZ7vVvku35TrbZWti/Wmyjfla91NwMSBJV4xVhSxAExEmFIQH0gE0SJaZqR/FyKyRJYJY4zvfyYWNc6UbY4v67Zu0fuY/ltEosDwSWOvcZov20opfXz+FzOLvxbxonBb8tV88cX4625/Sr7d7D62fcPAmJ2awYoI8wVE+oqxCIAz4DTbCVDPOAEC2GE0an84HY9D9z1Np4uqqep+V3VFfcqKptrrojxUr90bq8MpxtSodwEAAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;6&quot;
+        title=&quot;6&quot;
+        src=&quot;/static/6b91f4a59464abc8cf3f03fe83b40da9/f058b/6.png&quot;
+        srcset=&quot;/static/6b91f4a59464abc8cf3f03fe83b40da9/c26ae/6.png 158w,
+/static/6b91f4a59464abc8cf3f03fe83b40da9/6bdcf/6.png 315w,
+/static/6b91f4a59464abc8cf3f03fe83b40da9/f058b/6.png 630w,
+/static/6b91f4a59464abc8cf3f03fe83b40da9/8c557/6.png 700w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Almost there… Change Deployment Mode from “Framework-dependent” to “Self-contained”
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/f4d477af5b391d2553365d46d8cdd223/8c557/7.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 56.32911392405063%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAALCAIAAADwazoUAAAACXBIWXMAAAsTAAALEwEAmpwYAAABkklEQVQoz22R3W7aQBCF/f4vE7VUClXSCvWmF/0JBpdABUEmaQIOYO+uZ2d3ZtZb2S6IVv10NNqbmXOONtksp/lq8SVd36XL7+lyNt/cL57Omv98+pY+jKfryY91mv2r5NfOlobBO2W0Yw4xSmwu5YNwCDH+R0ldW09UHFWpwSBp8MaR9qKRNHptvUEy6C0iovtbmABgCFKVRwQQYa0Uo4uIsWniCRGBE/aCBCyKsAFEzyEEEQnEQelwLEOlxKKqKvHI1OIvqI1pnUVEVdp73z6UYubQ2xJFY7ar/P65QhLvHbGc43iifplrAEAPjgFs6AK0ozuRF3oweS0UVPt9sdmY16JVsTOHw59lsKhrS0Qi0ly0bULDRK2PiMofxx8/jT9/XU3ni3S2nc66zsyIDtD1ZaSz7RER76mJ0TmXP6z32wJqCwZqA3WlEov9MrqW0zz/hrXeuS5D0568CEXMydX13eAmHY6y4Si7HmVvbyZv3o8Ht9ngNnv3Ibsapo/PhxgbZm5CcIhVWRkDh1K9vOx+A2JDbc1mlILvAAAAAElFTkSuQmCC&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;7&quot;
+        title=&quot;7&quot;
+        src=&quot;/static/f4d477af5b391d2553365d46d8cdd223/f058b/7.png&quot;
+        srcset=&quot;/static/f4d477af5b391d2553365d46d8cdd223/c26ae/7.png 158w,
+/static/f4d477af5b391d2553365d46d8cdd223/6bdcf/7.png 315w,
+/static/f4d477af5b391d2553365d46d8cdd223/f058b/7.png 630w,
+/static/f4d477af5b391d2553365d46d8cdd223/8c557/7.png 700w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Now hit Publish, and wait for it to do its thing:
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 630px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/53e419dfc5d88d8827b15c223aee0ff9/8c557/8.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 45.56962025316456%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAJCAIAAAC9o5sfAAAACXBIWXMAAAsTAAALEwEAmpwYAAABWklEQVQoz2WO22rcMBRF/f+fE0pCH9pkKHjG0pGObrbj0Ti2bpbs0NL+QfGUTpMUFpv1cPZhV+TxDr990vX9iA/L8+FG6p/ycJjU145+MafPun4Y2OMFD2+pQNiadlRcKD5zaUEMTJ7R7MLVWQ/+4r/b+XUMP6b4c06/3lIhZ4yBkgKAUtKcTidCGqDkWNcMmLV2XXNZSym5lCW/pxJCAnCpDAAnhDYNJZQBMBRSm3Y4Wx/SkkvK/1VzqRjDpiGMccZQSsU4olCI0vmY123JJZf1erpnWt6X27ZXynAulDZt12ujpbKcOyE8iijVwjBqk53P67aVdfv761ruup4CB+AoJCFAGrqPJ4RQWtfHhlDOUQhp2q7temO64WynaR7HlxBTpY0BzqXSiFLp1l7G2Xnng/N+dn5yzvnwMs27z+6PpLSEmNKSqxBjiCnGFHZ2z9dt5V9uN/8w+zeVA8up5chAdwAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;8&quot;
+        title=&quot;8&quot;
+        src=&quot;/static/53e419dfc5d88d8827b15c223aee0ff9/f058b/8.png&quot;
+        srcset=&quot;/static/53e419dfc5d88d8827b15c223aee0ff9/c26ae/8.png 158w,
+/static/53e419dfc5d88d8827b15c223aee0ff9/6bdcf/8.png 315w,
+/static/53e419dfc5d88d8827b15c223aee0ff9/f058b/8.png 630w,
+/static/53e419dfc5d88d8827b15c223aee0ff9/8c557/8.png 700w&quot;
+        sizes=&quot;(max-width: 630px) 100vw, 630px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Good, let’s see if that worked. Open your browser and check that the /weatherforecast endpoint is working. You should see something like this:
+&lt;span
+      class=&quot;gatsby-resp-image-wrapper&quot;
+      style=&quot;position: relative; display: block; margin-left: auto; margin-right: auto; max-width: 556px; &quot;
+    &gt;
+      &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;/static/3e371390b211bdf7612ac681f0cfc73d/96638/9.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+    &lt;span
+    class=&quot;gatsby-resp-image-background-image&quot;
+    style=&quot;padding-bottom: 104.43037974683544%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAIAAADJt1n/AAAACXBIWXMAAAsTAAALEwEAmpwYAAACBklEQVQ4y5VUi47aMBDk/3/tVKkVBcpxEAh5koft+L3rdSoH6aTqOERH0XoteTy7s3JWSilElEqNI5ukrJq2qOq6aYqyvOTFJb9erkWWX/OiKMqqrJuqbqqmHRlXxqwQgWKM8xxj+ogihRhTJEqblIRA+IkQlhAC0YqWVXDuvFNOGq+0V0uilZPCcGmF8Xp+hFUSnefj4ZBlp+P5o+2GgWntlfVGOyXtpNNF5jtyYp+Ox/12VzVlP4yR5hexIiJrLVHqiiLRHL4einP8VplirKtaCN7xm1CMS87UOBnO1NBP3Sh7ofmzsrebzfrXz92fbVl1QiR3F48DEmJI+bfkGKnrbnVVaaOE4v/Xs3PWOReIkBCCg+AcWI8paqetNx78Y/J9yS+Xtm2K9jqwkctpMlxZubTNhGbKymc9b9brH29v+8P+WjbGvFx2jNF7DwDO2hgJ0N2ve7VnABj63ljD9SjtJM20JILrcZAdT2MTz8rOTtk5O53zrGkZFz7Zht6Bs2A9OI/+Gfnw/r5Z/y7rIm9Ka1+d1SqEMImJiJZHFjw4DMmCTyCi9x4RH5ARARHOWda0ddHmPet7xsapE5qPsr+JdpAdkyMAPFaOMR4/Pva73eF4aG6DkjT/+xJijACPlAMiANzati4r48woOwf2TrhjnmOaCD5SBkDv3f3P8hnhC4geuPgXSP/GCo3/Un0AAAAASUVORK5CYII=&apos;); background-size: cover; display: block;&quot;
+  &gt;&lt;/span&gt;
+  &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        alt=&quot;9&quot;
+        title=&quot;9&quot;
+        src=&quot;/static/3e371390b211bdf7612ac681f0cfc73d/96638/9.png&quot;
+        srcset=&quot;/static/3e371390b211bdf7612ac681f0cfc73d/c26ae/9.png 158w,
+/static/3e371390b211bdf7612ac681f0cfc73d/6bdcf/9.png 315w,
+/static/3e371390b211bdf7612ac681f0cfc73d/96638/9.png 556w&quot;
+        sizes=&quot;(max-width: 556px) 100vw, 556px&quot;
+        style=&quot;width:100%;height:100%;margin:0;vertical-align:middle;position:absolute;top:0;left:0;&quot;
+        loading=&quot;lazy&quot;
+        decoding=&quot;async&quot;
+      /&gt;
+  &lt;/a&gt;
+    &lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Yay! Your backend is now up and running in Azure!&lt;/p&gt;</content:encoded></item><item><title><![CDATA[A workaround for ‘proxy request’ errors in the Visual Studio 2022 Standalone Angular Template]]></title><description><![CDATA[Error I was playing with the Standalone Angular Template that comes with Visual Studio 2022 (https://docs.microsoft.com/en-us/visualstudio…]]></description><link>https://dopoto.github.io/20210916-proxy-request-errors-vs-2022/</link><guid isPermaLink="false">https://dopoto.github.io/20210916-proxy-request-errors-vs-2022/</guid><pubDate>Thu, 16 Sep 2021 22:12:03 GMT</pubDate><content:encoded>&lt;h1&gt;Error&lt;/h1&gt;
+&lt;p&gt;I was playing with the Standalone Angular Template that comes with Visual Studio 2022 (&lt;a href=&quot;https://docs.microsoft.com/en-us/visualstudio/javascript/tutorial-asp-net-core-with-angular?view=vs-2022&quot;&gt;https://docs.microsoft.com/en-us/visualstudio/javascript/tutorial-asp-net-core-with-angular?view=vs-2022&lt;/a&gt;). It looks like the current version of this template will throw an error at runtime when you go with the default settings:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;[HPM] Error occurred while trying to proxy request 
+/weatherforecast from localhost:4210 to https://localhost:5063 
+(EPROTO) 
+(https://nodejs.org/api/errors.html#errors_common_system_errors)&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h1&gt;Workaround&lt;/h1&gt;
+&lt;p&gt;Change the target in proxy.conf.js to from ‘https://…’ to ‘http://…’.&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;js&quot;&gt;&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;PROXY_CONFIG&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;
+      &lt;span class=&quot;token string&quot;&gt;&quot;/weatherforecast&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;http://localhost:5063&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token literal-property property&quot;&gt;secure&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;
+
+module&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;exports &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token constant&quot;&gt;PROXY_CONFIG&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</content:encoded></item></channel></rss>
