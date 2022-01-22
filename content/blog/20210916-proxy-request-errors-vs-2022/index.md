@@ -9,12 +9,10 @@ description: "A workaround for ‘proxy request’ errors in the Visual Studio 2
 I was playing with the Standalone Angular Template that comes with Visual Studio 2022 (https://docs.microsoft.com/en-us/visualstudio/javascript/tutorial-asp-net-core-with-angular?view=vs-2022). It looks like the current version of this template will throw an error at runtime when you go with the default settings:
 
 
-    [HPM] Error occurred while trying to proxy request /weatherforecast from localhost:4210 to https://localhost:5063 (EPROTO) (https://nodejs.org/api/errors.html#errors_common_system_errors)
-
-
-
-
-
+    [HPM] Error occurred while trying to proxy request 
+    /weatherforecast from localhost:4210 to https://localhost:5063 
+    (EPROTO) 
+    (https://nodejs.org/api/errors.html#errors_common_system_errors)
 
 # Workaround
 
