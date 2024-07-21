@@ -1,7 +1,7 @@
 ---
-title: RemoteBeep — a demo using .NET 6, SignalR, Angular 13 and NGRX
+title: RemoteBeep — a demo using .NET 8, SignalR, Angular 13 and NGRX
 date: "2024-07-24T22:40:32.169Z"
-description: RemoteBeep — a demo using .NET 6, SignalR, Angular 13 and NGRX
+description: RemoteBeep — a demo using .NET 8, SignalR, Angular 13 and NGRX
 ---
 
 Here’s a quick demo I’ve been playing with:
