@@ -12,5 +12,5 @@ It showcases how to:
 - send and receive events using SignalR in Angular
 - manage application state using NGRX and NGRX effects
 You can check it out here:
-https://remotebeepstorage.z6.web.core.windows.net
+https://remotebeep.z13.web.core.windows.net/
 
