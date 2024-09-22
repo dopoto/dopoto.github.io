@@ -1,4 +1,4 @@
-import Seo from "../components/seo";
+import CustomHead from "../components/custom-head";
 import Layout from "../components/layout"
 import { graphql, Link } from "gatsby";
 import React from "react";
@@ -71,4 +71,4 @@ export default IndexPage;
  *
  * See: https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-head/
  */
-export const Head = () => <Seo title="dopoto - a web developer's blog" />
+export const Head = () => <CustomHead title="dopoto - a web developer's blog" />
