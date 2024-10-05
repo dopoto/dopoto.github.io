@@ -6,7 +6,7 @@ const CvPage = () => {
     return (
         <Layout secondaryTitle="My CV">
             <div className="pb-5">Click the link below to download the latest version of my CV, in PDF format.</div>
-             <a href="/CV - Dorin Potorac - Front-End Developer 2024-10-05.pdf" download>
+             <a href="/CV-Dorin-Potorac-Front-End-Developer-2024-10-05.pdf" download>
              <Button variant="default">Download CV</Button>
              </a>
         </Layout>
