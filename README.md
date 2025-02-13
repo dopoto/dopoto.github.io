@@ -1,1 +1,1 @@
-test
+Source code for https://dopoto.github.io - a Gatsby-powered blog about web development.
