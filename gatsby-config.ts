@@ -20,23 +20,10 @@ module.exports = {
     plugins: [
       `gatsby-plugin-image`,
       {
-        resolve: `gatsby-source-filesystem`,
+        resolve: `gatsby-plugin-mdx`,
         options: {
-          path: `${__dirname}/content/blog`,
-          name: `blog`,
-        },
-      },
-      {
-        resolve: `gatsby-source-filesystem`,
-        options: {
-          name: `images`,
-          path: `${__dirname}/src/images`,
-        },
-      },
-      {
-        resolve: `gatsby-transformer-remark`,
-        options: {
-          plugins: [
+          extensions: [".mdx", ".md"],
+          gatsbyRemarkPlugins: [
             {
               resolve: `gatsby-remark-images`,
               options: {
@@ -51,6 +38,20 @@ module.exports = {
             },
             `gatsby-remark-prismjs`,
           ],
+        },
+      },
+      {
+        resolve: `gatsby-source-filesystem`,
+        options: {
+          path: `${__dirname}/content/blog`,
+          name: `blog`,
+        },
+      },
+      {
+        resolve: `gatsby-source-filesystem`,
+        options: {
+          name: `images`,
+          path: `${__dirname}/src/images`,
         },
       },
       `gatsby-transformer-sharp`,

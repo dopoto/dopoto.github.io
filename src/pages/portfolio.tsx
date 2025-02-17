@@ -4,6 +4,14 @@ import Layout from "../components/layout";
 
 const portfolioItems = [
     {
+        name: "Dynamic navbar",
+        description: "A Next.js dynamic breadcrumbs navbar",
+        tech: ["Next.js"],
+        repoUrl: "https://github.com/dopoto/next-dynamic-breadcrumbs",
+        repoText: "/dopoto/next-dynamic-breadcrumbs",
+        demoUrl: "https://next-dynamic-breadcrumbs.vercel.app/manager",
+    },
+    {
         name: "RemoteBeep",
         description: "Play sounds remotely on multiple devices.",
         tech: [".NET 8", "SignalR", "Angular", "NGRX"],
