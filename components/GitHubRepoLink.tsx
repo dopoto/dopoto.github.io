@@ -15,7 +15,7 @@ export default function GitHubRepoLink({ url }: Props) {
         <div className="text-sm font-semibold text-gray-600 antialiased dark:text-gray-300">
           SOURCE CODE
         </div>
-        <Link target="_blank" href={url}>
+        <Link target="_blank" href={url} className="truncate">
           {url}
         </Link>
       </div>

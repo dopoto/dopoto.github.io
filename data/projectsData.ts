@@ -1,26 +1,38 @@
 interface Project {
-  title: string
+  name: string
   description: string
-  href?: string
-  imgSrc?: string
+  tech: string[]
+  repoUrl: string
+  repoText: string
+  demoUrl: string
 }
+
+//name, description, tech, repoUrl, repoText, demoUrl, imgSrc,
 
 const projectsData: Project[] = [
   {
-    title: 'A Search Engine',
-    description: `What if you could look up any information in the world? Webpages, images, videos
-    and more. Google has many features to help you find exactly what you're looking
-    for.`,
-    imgSrc: '/static/images/google.png',
-    href: 'https://www.google.com',
+    name: 'RemoteBeep',
+    description: 'Play sounds remotely on multiple devices',
+    tech: ['.NET 8', 'SignalR', 'Angular', 'NGRX'],
+    repoUrl: 'https://github.com/dopoto/remote-beep-frontend',
+    repoText: '/dopoto/remote-beep-frontend',
+    demoUrl: 'https://remote-beep-frontend.vercel.app',
   },
   {
-    title: 'The Time Machine',
-    description: `Imagine being able to travel back in time or to the future. Simple turn the knob
-    to the desired date and press "Go". No more worrying about lost keys or
-    forgotten headphones with this simple yet affordable solution.`,
-    imgSrc: '/static/images/time-machine.jpg',
-    href: '/blog/the-time-machine',
+    name: 'Dynamic navbar',
+    description: 'A Next.js dynamic breadcrumbs navbar',
+    tech: ['Next.js'],
+    repoUrl: 'https://github.com/dopoto/next-dynamic-breadcrumbs',
+    repoText: '/dopoto/next-dynamic-breadcrumbs',
+    demoUrl: 'https://next-dynamic-breadcrumbs.vercel.app/manager',
+  },
+  {
+    name: 'TEPS',
+    description: 'A sample company presentation site',
+    tech: ['HTML', 'CSS', 'Bootstrap 5'],
+    repoUrl: 'https://github.com/dopoto/teps',
+    repoText: '/dopoto/teps',
+    demoUrl: 'https://teps.vercel.app',
   },
 ]
 
