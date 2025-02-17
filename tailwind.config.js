@@ -1,65 +1,47 @@
-/** @type {import('tailwindcss').Config} */
+/* eslint-disable @typescript-eslint/no-require-imports */
+// @ts-check
+/** @type {import("tailwindcss").Config } */
 module.exports = {
-    darkMode: ["class"],
-    content: [
-        `./src/pages/**/*.{js,jsx,ts,tsx}`,
-        `./src/components/**/*.{js,jsx,ts,tsx}`,
-        `./src/templates/**/*.{js,jsx,ts,tsx}`,
-    ],
-    theme: {
-        extend: {
-            fontFamily: {
-                sans: ["MontserratVariable", "sans-serif"],
-                body: ["MontserratVariable", "sans-serif"],
+  theme: {
+    extend: {
+      typography: ({ theme }) => ({
+        DEFAULT: {
+          css: {
+            a: {
+              color: theme('--color-primary-500'),
+              '&:hover': {
+                color: theme('--color-primary-600'),
+              },
+              code: { color: theme('--color-primary-400') },
             },
-            borderRadius: {
-                lg: "var(--radius)",
-                md: "calc(var(--radius) - 2px)",
-                sm: "calc(var(--radius) - 4px)",
+            'h1,h2': {
+              fontWeight: '700',
+              letterSpacing: theme('--tracking-tight'),
             },
-            colors: {
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
-                card: {
-                    DEFAULT: "hsl(var(--card))",
-                    foreground: "hsl(var(--card-foreground))",
-                },
-                popover: {
-                    DEFAULT: "hsl(var(--popover))",
-                    foreground: "hsl(var(--popover-foreground))",
-                },
-                primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
-                },
-                secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))",
-                },
-                muted: {
-                    DEFAULT: "hsl(var(--muted))",
-                    foreground: "hsl(var(--muted-foreground))",
-                },
-                accent: {
-                    DEFAULT: "hsl(var(--accent))",
-                    foreground: "hsl(var(--accent-foreground))",
-                },
-                destructive: {
-                    DEFAULT: "hsl(var(--destructive))",
-                    foreground: "hsl(var(--destructive-foreground))",
-                },
-                border: "hsl(var(--border))",
-                input: "hsl(var(--input))",
-                ring: "hsl(var(--ring))",
-                chart: {
-                    1: "hsl(var(--chart-1))",
-                    2: "hsl(var(--chart-2))",
-                    3: "hsl(var(--chart-3))",
-                    4: "hsl(var(--chart-4))",
-                    5: "hsl(var(--chart-5))",
-                },
+            h3: {
+              fontWeight: '600',
             },
+            code: {
+              color: theme('--color-indigo-500'),
+            },
+          },
         },
+        invert: {
+          css: {
+            a: {
+              color: theme('--color-pink-500'),
+              '&:hover': {
+                color: theme('--color-primary-400'),
+              },
+              code: { color: theme('--color-primary-400') },
+            },
+            'h1,h2,h3,h4,h5,h6': {
+              color: theme('--color-gray-100'),
+            },
+          },
+        },
+      }),
     },
-    plugins: [require("tailwindcss-animate")],
-};
+  },
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+}

@@ -1,0 +1,39 @@
+---
+title: Debug server-side code in Next.js 15 + Turbopack
+date: '2025-02-12'
+tags: ['Visual Studio Code', 'Next.js']
+---
+
+Took a bit of trial-and-error, but I managed to get Next.js 15 / Turbopack server-side debugging to work in my VS Code, using this configuration:
+
+```ts:.vscode/launch.json
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Next.js: debug server-side",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
+        "args": [
+          "dev"
+        ],
+        "cwd": "${workspaceFolder}",
+        "autoAttachChildProcesses": true,
+        "skipFiles": [
+          "<node_internals>/**"
+        ],
+        "serverReadyAction": {
+          "pattern": "started server on .+? \\(http://.+?\\)",
+          "uriFormat": "%s",
+          "action": "openExternally"
+        }
+      }
+    ]
+  }
+```
+
+My environment:
+
+- VS Code on Windows 11 / Node v22.10.0
+- Next.js 15.1.7, running `"next dev --turbopack"`

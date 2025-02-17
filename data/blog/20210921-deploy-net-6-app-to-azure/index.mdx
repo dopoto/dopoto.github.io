@@ -1,0 +1,41 @@
+---
+title: Deploying a .NET 6 web application to Azure from Visual Studio 2022
+date: '2021-09-21'
+tags: ['Visual Studio', 'Azure', '.NET']
+---
+
+# Prerequisites
+
+- Set up a .NET 6 app and ensure that it’s running locally — see https://docs.microsoft.com/en-us/visualstudio/javascript/tutorial-asp-net-core-with-angular?view=vs-2022
+- Set up a free Azure account at https://azure.microsoft.com/en-us/free/
+
+# Steps
+
+Right-click your backend project, hit `Publish…`:
+![Publish](/static/images/1.png)
+
+Choose Azure in the Target step:
+![Target](/static/images/2.png)
+
+Let’s go with Azure App Service here:
+![Azure APp Service](/static/images/3.png)
+
+Create a Resource Group and a Hosting Plan here, if you don’t have them already:
+![Resource Group](/static/images/4.png)
+
+Let’s just skip the API Management part"
+![API Management](/static/images/5.png)
+
+Choose the first option here — Publish:
+![Deployment type](/static/images/6.png)
+
+Almost there… Change Deployment Mode from `Framework-dependent` to `Self-contained`:
+![Self-contained](/static/images/7.png)
+
+Now hit Publish, and wait for it to do its thing:
+![Output](/static/images/8.png)
+
+Good, let’s see if that worked. Open your browser and check that the /weatherforecast endpoint is working. You should see something like this:
+![Result](/static/images/9.png)
+
+Yay! Your backend is now up and running in Azure!
