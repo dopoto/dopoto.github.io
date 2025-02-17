@@ -1,12 +1,12 @@
 ---
-title: Debugging in Next.js 15 + Turbopack
+title: Debugging server-side code in Next.js 15 + Turbopack
 date: '2025-02-12'
-summary: How to set up your launch.json config to debug server-side code with Next.js 15 / Turbopack
+tags: ['Visual Studio Code', 'Next.js']
 ---
 
-Took a bit of trial-and-error, but I managed to get server-side debugging to work in my VS Code, using this `.vscode/launch.json` configuration:
+Took a bit of trial-and-error, but I managed to get Next.js 15 / Turbopack server-side debugging to work in my VS Code, using this configuration:
 
-```js
+```ts:.vscode/launch.json
 {
     "version": "0.2.0",
     "configurations": [
