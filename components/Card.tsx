@@ -1,5 +1,5 @@
 import DemoLink from './DemoLink'
-import GitHubRepoLink from './GithubRepoLink'
+import GitHubRepoLink from './GitHubRepoLink'
 
 const Card = ({ name, description, tech, repoUrl, repoText, demoUrl, imgSrc }) => (
   <div className="md min-h-[300px] max-w-[544px] p-4 pb-12 md:w-1/2">

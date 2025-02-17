@@ -1,10 +1,10 @@
 {
   "visual-studio": 2,
+  "angular": 2,
   "azure": 1,
   "net": 2,
-  "angular": 2,
+  "visual-studio-code": 2,
   "signalr": 1,
   "ngrx": 1,
-  "visual-studio-code": 2,
   "nextjs": 2
 }
