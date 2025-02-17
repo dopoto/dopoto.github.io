@@ -7,7 +7,7 @@ const IndexPage = ({ data }: any) => {
     return (
         <Layout secondaryTitle="A web developer's blog" headerLinkTo="/">
             <ol style={{ listStyle: `none` }}>
-                {data.allMarkdownRemark.edges.map(({ node }: any) => (
+                {data.allMdx.edges.map(({ node }: any) => (
                     <li key={node.fields.slug}>
                         <article
                             className="mb-[var(--spacing-8)] mt-[var(--spacing-8)]"
@@ -46,7 +46,7 @@ const IndexPage = ({ data }: any) => {
 
 export const query = graphql`
     {
-        allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+        allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
             edges {
                 node {
                     excerpt

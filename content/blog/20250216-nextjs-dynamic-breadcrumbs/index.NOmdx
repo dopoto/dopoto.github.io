@@ -1,0 +1,28 @@
+---
+title: Next.js Dynamic breadcrumbs
+date: "2025-02-16T11:40:00.169Z"
+description: A quick demo of a dynamic breadcrumbs nav in Next.js
+---
+
+import CodeBlock from '../../../src/components/code-block'
+
+Gere4
+
+https://next-dynamic-breadcrumbs.vercel.app/manager
+
+https://github.com/dopoto/next-dynamic-breadcrumbs
+
+<CodeBlock
+  code={`function greet(name) {
+  console.log("Hello, " + name + "!");
+}
+
+// Calling the function
+greet("Alice");`}
+  language="javascript"
+  githubLink="https://github.com/yourusername/yourrepo/blob/main/examples/greet.js"
+  fileName="greet.js"
+/>
+
+ 
+

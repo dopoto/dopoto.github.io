@@ -3,7 +3,7 @@ import { graphql } from "gatsby";
 import Layout from "../components/layout";
 
 const BlogPost = ({ data }: any) => {
-    const post = data.markdownRemark;
+    const post = data.mdx;
     return (
         <Layout secondaryTitle="A web developer's blog" headerLinkTo="/">
             <article itemScope itemType="http://schema.org/Article">
@@ -14,7 +14,7 @@ const BlogPost = ({ data }: any) => {
                     </div>
                     <div
                         className="pt-8 pb-12"
-                        dangerouslySetInnerHTML={{ __html: post.html }}
+                        dangerouslySetInnerHTML={{ __html: post.body }}
                     />
                 </div>
             </article>
@@ -33,17 +33,17 @@ export const pageQuery = graphql`
                 title
             }
         }
-        markdownRemark(id: { eq: $id }) {
+        mdx(id: { eq: $id }) {
             id
             excerpt(pruneLength: 160)
-            html
+            body
             frontmatter {
                 title
                 date(formatString: "MMMM DD, YYYY")
                 description
             }
         }
-        previous: markdownRemark(id: { eq: $previousPostId }) {
+        previous: mdx(id: { eq: $previousPostId }) {
             fields {
                 slug
             }
@@ -51,7 +51,7 @@ export const pageQuery = graphql`
                 title
             }
         }
-        next: markdownRemark(id: { eq: $nextPostId }) {
+        next: mdx(id: { eq: $nextPostId }) {
             fields {
                 slug
             }
