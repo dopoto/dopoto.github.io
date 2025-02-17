@@ -7,8 +7,6 @@ interface Project {
   demoUrl: string
 }
 
-//name, description, tech, repoUrl, repoText, demoUrl, imgSrc,
-
 const projectsData: Project[] = [
   {
     name: 'RemoteBeep',
@@ -20,7 +18,7 @@ const projectsData: Project[] = [
   },
   {
     name: 'Dynamic navbar',
-    description: 'A Next.js dynamic breadcrumbs navbar',
+    description: 'A Next.js dynamic breadcrumb component',
     tech: ['Next.js'],
     repoUrl: 'https://github.com/dopoto/next-dynamic-breadcrumbs',
     repoText: '/dopoto/next-dynamic-breadcrumbs',
