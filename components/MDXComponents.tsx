@@ -6,7 +6,7 @@ import Image from './Image'
 import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 import DemoLink from './DemoLink'
-import GitHubRepoLink from './GithubRepoLink'
+import GitHubRepoLink from './GitHubRepoLink'
 
 export const components: MDXComponents = {
   Image,
