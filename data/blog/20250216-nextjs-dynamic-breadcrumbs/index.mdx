@@ -1,13 +1,54 @@
 ---
-title: A Next.js dynamic breadcrumbs component
+title: A Next.js dynamic breadcrumb component
 date: '2025-02-16'
 tags: ['Next.js']
 ---
 
-Gere4
+Published a small repo showing how to implement a dynamic breadcrumb navigator in a
+Next.js / app router appplication.
+
+Routes need to be defined hierarchically:
+
+```ts:routes.ts
+export const routes: ManagerRoute[] = [
+  {
+    name: "Manager",
+    path: "/manager",
+    childRoutes: [
+      {
+        name: "Locations",
+        path: "/manager/locations",
+        childRoutes: [{ name: "Add location", path: "/manager/locations/add" }],
+      },
+      {
+        name: "Widgets",
+        path: "/manager/widgets",
+        childRoutes: [
+          { name: "Add widget", path: "/manager/widgets/add" },
+          {
+            name: "Subwidgets",
+            path: "/manager/widgets/subwidgets",
+            childRoutes: [
+              { name: "Add subwidget", path: "/manager/widgets/subwidgets/add" },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+];
+```
+
+A breadcrumb navigation path is created out of the parents of the currently active route:
+![Resource Group](/static/images/breadcrumb.png)
+
+A list of links is also built for all the siblings in each segment of the breadcrumb:
+![Resource Group](/static/images/breadcrumb2.png)
+
+Check out a live demo below:
 
 <DemoLink url="https://next-dynamic-breadcrumbs.vercel.app/manager" />
 
-tete w
+Source code is in GitHub:
 
 <GitHubRepoLink url="https://github.com/dopoto/next-dynamic-breadcrumbs" />
