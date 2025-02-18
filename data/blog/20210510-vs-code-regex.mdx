@@ -1,0 +1,17 @@
+---
+title: Visual Studio Code — finding all files that contain several strings
+date: '2021-05-10'
+tags: ['Visual Studio Code']
+---
+
+An underrated feature in Visual Studio Code - regex search.
+
+Here's a use case - find all components in your project that accept `url` as a
+property and also contain the word `label`.
+
+Solution:
+
+- Use this search term: `url:[\s\S\n]*?label`
+- Select the `Use Regular Expression` search option
+
+![Visual Studio Code Regex Search](/static/images/vsregex.png)

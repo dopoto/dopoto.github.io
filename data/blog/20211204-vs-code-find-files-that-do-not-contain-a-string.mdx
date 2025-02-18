@@ -14,11 +14,12 @@ Now, I happen to know that this is caused by a missing `[NO_ERRORS_SCHEMA]` in o
 
 But — the Karma tests runner does not provide any info about the actual names of the files having this issue.
 
-So — how to solve this problem then: “get a list of all \*.spec.ts files in my project that do not contain the ‘NO_ERRORS_SCHEMA’ string”?
+So — how to solve this problem then: “get a list of all \*.spec.ts files in my project that <b>do not</b> contain the `NO_ERRORS_SCHEMA` string”?
 
 Luckily, there’s a Visual Studio Code extension for that:
 [ReverseSearch](https://marketplace.visualstudio.com/items?itemName=DanishSarwar.reverse-search).
-Once installed, do this:
+
+To find all files that do not contain a certain string:
 
 Press Ctrl + P, open Reverse Search:
 
