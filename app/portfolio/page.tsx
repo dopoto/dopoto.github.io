@@ -16,17 +16,16 @@ export default function Projects() {
         </p>
       </div>
       <div className="container py-12">
-        <div className="-m-4 flex flex-wrap">
+        <div className="flex flex-wrap gap-4">
           {projectsData.map((d) => (
             <Card
               key={d.name}
               name={d.name}
               description={d.description}
-              imgSrc={undefined}
               tech={d.tech}
               repoUrl={d.repoUrl}
-              repoText={undefined}
               demoUrl={d.demoUrl}
+              className="flex-1 basis-1/2"
             />
           ))}
         </div>

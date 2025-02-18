@@ -1,8 +1,8 @@
 import DemoLink from './DemoLink'
 import GitHubRepoLink from './GitHubRepoLink'
 
-const Card = ({ name, description, tech, repoUrl, repoText, demoUrl, imgSrc }) => (
-  <div className="min-h-[300px] grow p-4 pb-12">
+const Card = ({ className, name, description, tech, repoUrl, demoUrl }) => (
+  <div className={`min-h-[300px] grow pb-12 ${className}`}>
     <div className="flex h-full grow flex-col gap-1 rounded-md">
       <div className="font-bold">{name}</div>
       <div className="">{description}</div>
@@ -13,7 +13,7 @@ const Card = ({ name, description, tech, repoUrl, repoText, demoUrl, imgSrc }) =
           </span>
         ))}
       </div>
-      <div className="mt-auto flex flex-col gap-2">
+      <div className="mt-auto flex flex-col">
         <GitHubRepoLink url={repoUrl} />
         <DemoLink url={demoUrl} />
       </div>
