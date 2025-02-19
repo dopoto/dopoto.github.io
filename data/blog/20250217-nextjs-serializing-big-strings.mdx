@@ -1,0 +1,25 @@
+---
+title: Next.js - A fix for the 'Serializing big strings...' warning
+date: '2025-02-17'
+tags: ['Next.js', 'Webpack']
+---
+
+Noticed this warning in the `next run dev` build output lately, seems to come with a longer build time too:
+
+```console
+[webpack.cache.PackFileCacheStrategy]
+Serializing big strings (242kiB) impacts deserialization performance
+(consider using Buffer instead and decode when needed)
+```
+
+Solution: add this to your Next.js config file:
+
+```ts:next.config.ts
+  webpack: (config: { cache: { type: string } }) => {
+    config.cache = {
+      type: "memory",
+    };
+
+    return config;
+  },
+```
