@@ -1,0 +1,23 @@
+---
+title: Restoring Save All with Ctrl + K,S in Cursor
+date: '2025-02-24'
+tags: ['Cursor']
+---
+
+`Ctrl + K,S` (Save All) is something I do by reflex every 20 seconds or so in VS Code. But Cursor decided to break this nice flow by hijacking `Ctrl + K`.
+
+So here's a quick way to fix that and make `Ctrl + K,S` save all in Cursor too:
+
+- Press `Ctrl + Shift + P` to open the Cursor command palette.
+- Search for `Preferences: Open Keyboard Shortcuts (JSON)` and select it. This will open your keybindings.json file, where you can define custom keybindings.
+- In keybindings.json, add the following entry to override the hijacked shortcut:
+
+```json
+[
+  {
+    "key": "ctrl+k s",
+    "command": "workbench.action.files.saveAll",
+    "when": "editorTextFocus"
+  }
+]
+```
