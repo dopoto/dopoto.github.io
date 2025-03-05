@@ -4,7 +4,7 @@ date: '2025-02-24'
 tags: ['Cursor']
 ---
 
-`Ctrl + K,S` (Save All) is something I do by reflex every 20 seconds or so in VS Code. But Cursor decided to break this nice flow by hijacking `Ctrl + K`.
+`Ctrl + K,S` (Save All) is something I do by reflex every 20 seconds or so in VS Code. Sadly, Cursor broke this nice flow by hijacking the `Ctrl + K` shortcut.
 
 So here's a quick way to fix that and make `Ctrl + K,S` save all in Cursor too:
 
@@ -14,6 +14,9 @@ So here's a quick way to fix that and make `Ctrl + K,S` save all in Cursor too:
 
 ```json
 [
+
+  ...your existing keybindings here
+
   {
     "key": "ctrl+k s",
     "command": "workbench.action.files.saveAll",
