@@ -1,12 +1,12 @@
 {
+  "nextjs": 4,
+  "cursor": 1,
+  "webpack": 1,
   "visual-studio-code": 3,
-  "visual-studio": 2,
   "angular": 2,
-  "azure": 1,
   "net": 2,
   "signalr": 1,
   "ngrx": 1,
-  "nextjs": 3,
-  "webpack": 1,
-  "cursor": 1
+  "visual-studio": 2,
+  "azure": 1
 }
