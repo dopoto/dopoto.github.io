@@ -1,0 +1,143 @@
+---
+title: A better way to recover from Next.js errors
+date: '2025-02-28'
+tags: ['Next.js']
+---
+
+As per <a target="_blank" href="https://nextjs.org/docs/app/getting-started/error-handling#nested-error-boundaries">Next.js docs</a>, you can attempt
+to recover from an error by using the provided `reset` callback in an `error.tsx` file:
+
+```tsx:error.tsx
+'use client'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  ...
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button
+        onClick={
+          // Attempt to recover by trying to re-render the segment
+          () => reset()
+        }
+      >
+        Try again
+      </button>
+    </div>
+  )
+}
+```
+
+However, that seems to never work. For example, with the `page.tsx` below, you would expect `reset` to always trigger a new
+exception. Yet it doesn't - the server-side code does not re-execute when you click the `Try again` button.
+
+```tsx:page.tsx
+export default async function Page() {
+  throw new Error(Date.now().toString())
+}
+```
+
+## Solution
+
+To make this actually attempt a proper route segment refresh, wrap the `reset` function, together with a `router.refresh()`, in a `startTransition`:
+
+```tsx:error.tsx
+'use client'
+
+import { useRouter } from "next/navigation";
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  ...
+  const router = useRouter();
+
+  function refresh() {
+      startTransition(() => {
+          router.refresh();
+          reset();
+      });
+  }
+
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button
+        onClick={refresh}
+      >
+        Try again
+      </button>
+    </div>
+  )
+}
+```
+
+## Why does this work?
+
+Okay, let's break down why the combination of `router.refresh()`, `reset()` and `startTransition` works to effectively "reset the route" after an error, while `reset()` alone often doesn't.
+
+### What reset() does
+
+The `reset()` function provided to the `error.tsx` component is specific to the `Error Boundary` mechanism.
+Its primary job is to tell Next.js: "Okay, I acknowledge the error happened, please try to re-render the component tree within this specific error boundary's scope".
+It does not inherently re-fetch data or re-run server-side logic for the route. It primarily attempts a client-side re-render of the segment that threw the error.
+
+Why it often fails alone: If the error was caused by something persistent (like bad data fetched during the initial server render, a corrupted server state related to that route,
+or a transient server issue that resolved but left the client with bad data), simply re-rendering the client components won't fix the underlying problem.
+The components will likely try to render with the same faulty data or state that caused the initial error.
+
+### What router.refresh() does
+
+It triggers a server-side refresh of the current route.
+This means Next.js will:
+
+- Re-request the current route from the server.
+- Re-run data fetching logic (Server Components, Route Handlers, etc.) for that route on the server.
+- Re-render the Server Components for that route on the server.
+- Send the updated payload (the fresh data and rendered Server Components) back to the client.
+
+The client intelligently merges this update without losing unrelated client-side state (like `useState` in components outside the refreshed segment) or browser state (like scroll position).
+
+### What startTransition() does
+
+`startTransition` is a React hook. It marks state updates inside its callback as "transitions". This tells React that the update might cause
+visual changes that shouldn't block the browser's main thread (preventing the UI from freezing).
+React can then prioritize rendering, potentially show pending UI states (`isPending` becomes true), and ensure a smoother user experience
+during potentially slow operations like data fetching and re-rendering triggered by `router.refresh()`.
+
+### Why the combination of startTransition, router.refresh and reset works
+
+`startTransition`<br/>
+You wrap the recovery logic in startTransition because refreshing the route involves network requests and potentially significant re-rendering, which
+can be slow. This prevents the UI from locking up when the user clicks "Try again".
+
+`router.refresh()`<br/>
+This is the core step to fix the root cause if the error stemmed from server-side issues or stale/bad data. It goes back to
+the server to get a fresh, potentially corrected version of the route's data and server components.
+
+`reset()`<br/>
+After `router.refresh()` has hopefully fetched fresh data and fixed the underlying server-side state, `reset()` tells the specific error
+boundary: "Now, attempt the re-render of your segment again".
+With the fresh data/state potentially available thanks to `router.refresh()`, this re-render attempt has a much higher chance of succeeding.
+
+### Summary
+
+`reset()` alone only tries to re-render the client-side components within the boundary, often failing if the error's cause is server-side or data-related.
+`router.refresh()` forces a server-side refresh, fetching new data and re-running server logic, addressing potential root causes.
+
+`reset()` is still needed after `router.refresh()` to explicitly tell the error boundary mechanism to retry rendering its specific segment.
+
+`startTransition` wraps the process to ensure a non-blocking, smoother user experience during the refresh and re-render attempt.
+Therefore, the combination `startTransition(() => { router.refresh(); reset(); });` provides a much more robust error recovery mechanism by
+addressing both the potential server-side root cause (`router.refresh`) and triggering the client-side re-render attempt (`reset`) in a
+non-blocking way (`startTransition`).
