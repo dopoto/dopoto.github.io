@@ -6,7 +6,10 @@
   "net": 2,
   "signalr": 1,
   "ngrx": 1,
-  "nextjs": 4,
+  "chrome": 1,
+  "debug-tools": 1,
+  "jwt": 1,
+  "nextjs": 5,
   "webpack": 1,
   "cursor": 1
 }

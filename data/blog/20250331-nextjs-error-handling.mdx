@@ -1,0 +1,136 @@
+---
+title: A workaround for 'message is omitted in production builds' in RSC errors
+date: '2025-03-31'
+tags: ['Next.js']
+---
+
+As per <a href="https://nextjs.org/docs/app/getting-started/error-handling">the Next.js docs on error handling</a>, errors
+occurring in your server components are passed to your `error.tsx` file - a client-side component. There, it's suggested that
+you should _"log the error to an error reporting service"_ :
+
+```tsx
+'use client' // Error boundaries must be Client Components
+
+import { useEffect } from 'react'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error)
+  }, [error])
+
+  ...
+}
+```
+
+Now, that struck me as a bit odd... Why not log errors directly in your server component? Why send them
+to your client-side app? What if sensitive data that you don't want your users to see gets sent?
+
+Well, although the docs don't mention it, React <a href="https://github.com/facebook/react/blob/b7e7f1a3fab87e8fc19e86a8088a9e0fe4710973/packages/react-server-dom-webpack/src/__tests__/ReactFlightDOMEdge-test.js#L980-L983">takes care of the sensitive part</a> - in your production bundle, all
+errors sent this way get sanitized automatically - the actual error message gets replaced with this generic one:
+
+_An error occurred in the Server Components render. The specific message is omitted in production builds to avoid
+leaking sensitive details. A digest property is included on this error instance which may provide additional details about the nature of the error._
+
+Still - none of the above matches what I would actually need to happen in this case in an actual production app:
+
+### On the server side:
+
+- populate a custom error context, including potentially sensitive data
+- generate a unique reference number for this error instance
+- log the error - the custom error context, the unique reference number, additional telemetry etc
+- whenever possible, build a context-aware user-friendly error message that might help the user recover from the error
+- make the sanitized error data (reference number + user-friendly message) available to the end-user
+
+### On the client side:
+
+- show the user-friendly error message, so users can attempt to recover
+- show the server-generated unique reference number, so users can append it to support requests
+
+## Workaround
+
+The only solution I found for now is to override the `digest` field (which is simply a string React generates by running the
+error message and stack trace through a hashing function) - this is the only part that
+React will leave untouched on both dev and production environments. We'll instead use it as a
+delimited string - that should get both the error id and the user-friendly error message to
+our `error.tsx`:
+
+### On the server side:
+
+```:error-utils.ts
+
+export const PUBLIC_ERROR_DELIMITER = "|";
+export type PublicErrorId = `${number}-${string}`;
+export type PublicErrorMessage =
+  `${PublicErrorId}${typeof PUBLIC_ERROR_DELIMITER}${string}`;
+
+export type PublicError = Error & {
+  digest?: PublicErrorMessage;
+};
+
+export class AppError extends Error {
+  public readonly publicErrorId: PublicErrorId;
+  public readonly publicMessage: string;
+  public digest: string;
+  constructor({
+    error,
+    internalMessage,
+    publicMessage,
+  }: {
+    error?: unknown;
+    internalMessage?: string;
+    publicMessage?: string;
+  }) {
+    const publicErrorId = generateErrorId();
+    const publicMessageOrDefault = publicMessage ?? "Something went wrong";
+
+    const pb: PublicErrorMessage = `${publicErrorId}${PUBLIC_ERROR_DELIMITER}${publicMessageOrDefault}`;
+
+    super(pb);
+
+    this.digest = pb;
+    this.publicErrorId = publicErrorId;
+    this.publicMessage = publicMessageOrDefault;
+
+    logException(error, publicErrorId, internalMessage);
+  }
+}
+```
+
+```:page.tsx
+if (!orgId) {
+  throw new AppError({
+    internalMessage: `No valid organization found for customer ${customerId}.`,
+    publicMessage: `Some data we needed is missing. Please restart your onboarding.`,
+  });
+}
+```
+
+### On the client side:
+
+```:error.tsx
+"use client"; // Error boundaries must be Client Components
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: PublicError;
+  reset: () => void;
+}) {
+
+  // parse the public error here - extract error id, user-friendly message.
+
+  return (
+    <div>
+    <!-- show the error id and the user-friendly message here -->
+    </div>
+  );
+}
+```

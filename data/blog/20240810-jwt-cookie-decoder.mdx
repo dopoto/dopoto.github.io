@@ -1,0 +1,25 @@
+---
+title: JWT Cookie Decoder
+date: '2024-08-10'
+tags: ['Chrome', 'Debug tools', 'JWT']
+---
+
+I've easily done this a few thousand times:
+
+- Open DevTools
+- Go to Application
+- Go to Cookies
+- Type in Filter to find some JWT cookie
+- Select its value, copy
+- Open jwt.io
+- Delete the sample data from their Encode Value
+- Paste my token data
+- Finally - have a look at some field in Decoded Payload
+
+<Image alt="jwt.io" src="/static/images/jwtio.png" width={500} height={297} />
+
+And, all of this time, I could've simply clicked a button in my browser:
+
+<Image alt="JWT Cookie Decoder" src="/static/images/jwt-extension.png" width={364} height={471} />
+
+Because, of course, there's a Chrome extension for that: <a target="_blank" href="https://chromewebstore.google.com/detail/jwt-cookie-decoder/fbdnmmifbmhmkcgfdpoiiikkaepafgnk">JWT Cookie Decoder</a>
