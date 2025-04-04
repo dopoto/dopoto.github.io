@@ -29,21 +29,21 @@ export default function Error({
 }
 ```
 
-Now, that struck me as a bit odd... Why not log errors directly in your server component? Why send them
-to your client-side app? What if sensitive data that you don't want your users to see gets sent?
+Now, that struck me as a bit odd... Why not log errors directly in your server component? Also, what if you end up showing sensitive data
+to your users?
 
-Well, although the docs don't mention it, React <a href="https://github.com/facebook/react/blob/b7e7f1a3fab87e8fc19e86a8088a9e0fe4710973/packages/react-server-dom-webpack/src/__tests__/ReactFlightDOMEdge-test.js#L980-L983">takes care of the sensitive part</a> - in your production bundle, all
-errors sent this way get sanitized automatically - the actual error message gets replaced with this generic one:
+Well, although the Next.js docs don't mention it, React <a href="https://github.com/facebook/react/blob/b7e7f1a3fab87e8fc19e86a8088a9e0fe4710973/packages/react-server-dom-webpack/src/__tests__/ReactFlightDOMEdge-test.js#L980-L983">takes care of the sensitive part</a> - in your production bundle, all
+errors sent this way get sanitized automatically, so the actual error message always gets replaced with this generic one:
 
 _An error occurred in the Server Components render. The specific message is omitted in production builds to avoid
 leaking sensitive details. A digest property is included on this error instance which may provide additional details about the nature of the error._
 
-Still - none of the above matches what I would actually need to happen in this case in an actual production app:
+Still - none of the above matches what I would actually need to happen in case of an error in an actual production app:
 
 ### On the server side:
 
 - populate a custom error context, including potentially sensitive data
-- generate a unique reference number for this error instance
+- generate a unique reference number to identify the error
 - log the error - the custom error context, the unique reference number, additional telemetry etc
 - whenever possible, build a context-aware user-friendly error message that might help the user recover from the error
 - make the sanitized error data (reference number + user-friendly message) available to the end-user
