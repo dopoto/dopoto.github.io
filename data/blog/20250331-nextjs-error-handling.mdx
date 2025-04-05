@@ -8,7 +8,7 @@ As per <a href="https://nextjs.org/docs/app/getting-started/error-handling">the 
 occurring in your server components are passed to your `error.tsx` file - a client-side component. There, it's suggested that
 you should _"log the error to an error reporting service"_ :
 
-```tsx
+```tsx {13-14} showLineNumbers
 'use client' // Error boundaries must be Client Components
 
 import { useEffect } from 'react'
@@ -63,7 +63,7 @@ our `error.tsx`:
 
 ### On the server side:
 
-```:error-utils.ts
+```:error-utils.ts showLineNumbers
 
 export const PUBLIC_ERROR_DELIMITER = "|";
 export type PublicErrorId = `${number}-${string}`;
@@ -103,7 +103,7 @@ export class AppError extends Error {
 }
 ```
 
-```:page.tsx
+```:page.tsx showLineNumbers
 if (!orgId) {
   throw new AppError({
     internalMessage: `No valid organization found for customer ${customerId}.`,
@@ -114,7 +114,7 @@ if (!orgId) {
 
 ### On the client side:
 
-```:error.tsx
+```:error.tsx showLineNumbers
 "use client"; // Error boundaries must be Client Components
 
 export default function Error({

@@ -1,15 +1,15 @@
 {
+  "nextjs": 5,
+  "cursor": 1,
+  "webpack": 1,
   "visual-studio-code": 3,
-  "visual-studio": 2,
-  "angular": 2,
-  "azure": 1,
-  "net": 2,
-  "signalr": 1,
-  "ngrx": 1,
   "chrome": 1,
   "debug-tools": 1,
   "jwt": 1,
-  "nextjs": 5,
-  "webpack": 1,
-  "cursor": 1
+  "angular": 2,
+  "net": 2,
+  "signalr": 1,
+  "ngrx": 1,
+  "visual-studio": 2,
+  "azure": 1
 }
