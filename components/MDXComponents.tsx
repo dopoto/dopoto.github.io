@@ -7,6 +7,7 @@ import CustomLink from './Link'
 import TableWrapper from './TableWrapper'
 import DemoLink from './DemoLink'
 import GitHubRepoLink from './GitHubRepoLink'
+import YouTube from './YouTube'
 
 export const components: MDXComponents = {
   Image,
@@ -17,4 +18,5 @@ export const components: MDXComponents = {
   BlogNewsletterForm,
   DemoLink,
   GitHubRepoLink,
+  YouTube,
 }

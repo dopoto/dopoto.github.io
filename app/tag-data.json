@@ -1,4 +1,6 @@
 {
+  "react": 1,
+  "wordle": 1,
   "nextjs": 5,
   "cursor": 1,
   "webpack": 1,
