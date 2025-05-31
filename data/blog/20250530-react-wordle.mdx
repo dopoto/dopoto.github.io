@@ -1,0 +1,278 @@
+---
+title: Yet another  Wordle React implementation
+date: '2025-05-30'
+tags: ['React', 'Wordle']
+---
+
+<YouTube id="5xf4_Kx7azg" />
+
+Just watched this live coding exercise video on implementing Wordle in React in 1 hour.
+
+I noticed they missed an edge-but-no-so-edge-really case: handling multiple matches
+of the same letter. For example, if the solution is `ABCAD` and your guess is `AXAXA`, the game should
+show you something like this:
+
+<div className="flex flex-row gap-1 text-[24px] font-bold">
+  <div className="flex h-[45px] w-[35px] justify-center border-1 text-center text-green-700">A</div>
+  <div className="flex h-[45px] w-[35px] justify-center border-1 text-center">X</div>
+  <div className="flex h-[45px] w-[35px] justify-center border-1 text-center text-amber-600">A</div>
+  <div className="flex h-[45px] w-[35px] justify-center border-1 text-center">X</div>
+  <div className="flex h-[45px] w-[35px] justify-center border-1 text-center">A</div>
+</div>
+
+- The first A in your guess is in the same position as the first A in the solution => green
+- The second A in your guess can still be found in the remaining letters of the solution => orange
+- The third A in your guess has no match in the solution now => black
+
+Not sure I would've handled all of this better in a live-coding, time-caped situation, but still - there were also some
+other things I would've approached in a different way. So, you know how it goes, proof is in the pudding and all that - 2.5 hours later,
+here's my attempt - yet another React Wordle implementation:
+
+<DemoLink url="https://nextjs-playground-two-sigma.vercel.app/wordle" />
+<GitHubRepoLink url="https://github.com/dopoto/nextjs-playground/blob/master/src/app/wordle/page.tsx" />
+
+OK, so let me now try to break down my approach:
+
+The grid we need to render consists of three sections:
+
+- your accepted guesses - these are words that have already been accepted / checked against the solution and go in the top rows.
+- the current guess - always a single row, partial or full word, 1 to 5 letters, not accepted yet / not checked against the solution yet.
+- your remaining attempts - these are just blank rows
+
+Therefore, when rendering the grid, your accepted guesses and your current guess should be taken from the internal
+component state, where ideally they have already been stored in an easy-to-use format (for example, accepted guesses
+should already be compared against solution, colors should already be assigned to each their letters etc).
+
+To tackle this, I first defined a type that would store the state of each letter in the accepted guesses:
+
+```ts
+type LetterResult = {
+  letter: string
+  color: 'green' | 'orange' | 'white'
+}
+```
+
+Then, I added the state needed to hold accepted guesses and current guess:
+
+```ts
+const [acceptedGuesses, setAcceptedGuesses] = useState<Array<LetterResult[]>>([])
+const [currentGuess, setCurrentGuess] = useState<string>('')
+```
+
+Now, we need to build the game rules parser - this kicks in whenever the player submits a new word.
+We'll create a `calculateColors` function and place it outside of the component.
+After we determine that a word is valid, we'll call this function to build our next accepted guess from it,
+before we store it in the internal state of the component.
+
+This is the core part of the game, and we want to be able to easily
+test it manually and through unit tests without having to spin up the whole game:
+
+```ts
+/**
+ * Calculates the color to apply to each letter of a guess.
+ * 
+ * NOTE: Once a letter has been matched (green), we still need
+ * to match other occurences of that letter against the solution:
+ * 
+ * Frequency Counting
+ * We first create a frequency map of solution letters that aren't exact positional matches.
+ * 
+ * Green Pass
+ * Identify exact matches (green tiles) and mark these positions as processed.
+ * 
+ * Yellow Pass
+ * For remaining letters, check against the solution's frequency count. Only mark yellow if 
+ * letters remain in the count.
+ * 
+ * @param solution "ABCAD"
+ * @param guess "AXAXA"
+ * @returns 
+ *[
+    {
+        "letter": "A", // <- first A, matches solution.
+        "color": "green"
+    },
+    {
+        "letter": "X",
+        "color": "white"
+    },
+    {
+        "letter": "A", // <- second A, still found in remaining letters of solution.
+        "color": "orange"
+    },
+    {
+        "letter": "X",
+        "color": "white"
+    },
+    {
+        "letter": "A", // <- third A, no longer found in remaining letters of solution.
+        "color": "white"
+    }
+]
+ */
+function calculateColors(solution: string, guess: string): LetterResult[] {
+  const solutionLetters = [...solution]
+  const guessLetters = [...guess]
+  const result: LetterResult[] = Array(guess.length)
+    .fill(null)
+    .map(() => ({ letter: '', color: 'white' }))
+  const letterCounts: { [key: string]: number } = {}
+
+  // First pass: count letters in solution (excluding exact matches)
+  for (let i = 0; i < solutionLetters.length; i++) {
+    if (solutionLetters[i] !== guessLetters[i]) {
+      letterCounts[solutionLetters[i]] = (letterCounts[solutionLetters[i]] || 0) + 1
+    }
+  }
+
+  // Second pass: check for exact matches (greens)
+  for (let i = 0; i < guessLetters.length; i++) {
+    result[i].letter = guessLetters[i]
+
+    if (solutionLetters[i] === guessLetters[i]) {
+      result[i].color = 'green'
+      guessLetters[i] = '' // Mark as processed
+    }
+  }
+
+  // Third pass: check for yellows (existing letters in wrong position)
+  for (let i = 0; i < guessLetters.length; i++) {
+    if (guessLetters[i] === '') continue
+
+    if (letterCounts[guessLetters[i]] > 0) {
+      result[i].color = 'orange'
+      letterCounts[guessLetters[i]]--
+    }
+  }
+
+  return result
+}
+```
+
+We can now start taking user input (pressed keys):
+
+```ts
+useEffect(() => {
+  function submitGuess(guess: WordleWord) {
+    const isValidWord = UPPERCASE_WORDS.includes(guess.toUpperCase())
+    if (!isValidWord) {
+      setIsShaking(true)
+      setTimeout(() => {
+        setIsShaking(false)
+      }, 500)
+      return
+    }
+
+    const processedGuess = calculateColors(solution, guess)
+    setAcceptedGuesses([...acceptedGuesses, processedGuess])
+    setCurrentGuess('')
+
+    if (guess === solution) {
+      setGameResult('won')
+      return
+    }
+
+    if (acceptedGuesses.length === ATTEMPTS - 1) {
+      setGameResult('lost')
+      return
+    }
+  }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    const key = e.key.toUpperCase()
+
+    if (currentGuess && (key === 'BACKSPACE' || key === 'DELETE')) {
+      setCurrentGuess((prev) => prev.slice(0, -1))
+      return
+    }
+
+    if (key === 'ENTER') {
+      if (currentGuess.length === WORD_LENGTH) {
+        submitGuess(currentGuess)
+      }
+      return
+    }
+
+    if (!'QWERTYUIOPASDFGHJKLZXCVBNM'.includes(key)) {
+      return
+    }
+
+    if (currentGuess.length >= WORD_LENGTH) {
+      return
+    }
+
+    setCurrentGuess((currentGuess) => currentGuess + key)
+  }
+
+  window.addEventListener('keydown', handleKeyDown)
+  return () => window.removeEventListener('keydown', handleKeyDown)
+}, [acceptedGuesses, solution, currentGuess])
+```
+
+All we need to do now is render the actual grid:
+
+```ts
+  const rows: Record<number, { type: "accepted" | "current" | "blank" }> = {};
+  new Array(ATTEMPTS).fill("").forEach((_, idx) => {
+    if (acceptedGuesses[idx]) {
+      rows[idx] = { type: "accepted" };
+    } else if (idx === acceptedGuesses.length) {
+      rows[idx] = { type: "current" };
+    } else {
+      rows[idx] = { type: "blank" };
+    }
+  });
+
+  return (
+    <div className="container">
+      <div className="grid">
+        {Object.entries(rows).map(([key, value]) => {
+          const shakeClass =
+            isShaking && key === acceptedGuesses.length.toString()
+              ? "shake"
+              : "";
+          return (
+            <div key={key} className={`row ${shakeClass}`}>
+              {value.type === "accepted" &&
+                new Array(WORD_LENGTH).fill("").map((_, idx) => {
+                  const { color, letter } =
+                    acceptedGuesses[key as unknown as number][idx];
+                  return (
+                    <div key={`a${key}${idx}`} className={`cell ${color}`}>
+                      {letter}
+                    </div>
+                  );
+                })}
+              {value.type === "current" &&
+                new Array(WORD_LENGTH).fill("").map((_, idx) => {
+                  const letter = currentGuess.split("")[idx];
+                  return (
+                    <div key={`c${key}${idx}`} className="cell grayletter">
+                      {letter}
+                    </div>
+                  );
+                })}
+              {value.type === "blank" &&
+                new Array(WORD_LENGTH).fill("").map((_, idx) => {
+                  return <div key={`b${key}${idx}`} className="cell"></div>;
+                })}
+            </div>
+          );
+        })}
+      </div>
+      {gameResult && (
+        <div className="gameresult">
+          <div>Game over, you {gameResult}!</div>
+          {gameResult === "lost" && <div>The word was {solution}.</div>}
+          <div>
+            <a onClick={startNewGame}>Start new game</a>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+```
+
+And the final result is:
+
+<Image alt="Wordle" src="/static/images/wordle.png" width={327} height={401} />
