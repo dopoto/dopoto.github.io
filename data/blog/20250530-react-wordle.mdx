@@ -6,9 +6,9 @@ tags: ['React', 'Wordle']
 
 <YouTube id="5xf4_Kx7azg" />
 
-Just watched the live coding exercise above - about implementing Wordle in React in 1 hour.
+Just watched this live coding exercise video on implementing Wordle in React in 1 hour.
 
-They missed an edge-but-no-so-edge-really case: handling multiple matches
+I noticed they missed an edge-but-no-so-edge-really case: handling multiple matches
 of the same letter. For example, if the solution is `ABCAD` and your guess is `AXAXA`, the game should
 show you something like this:
 
@@ -24,8 +24,8 @@ show you something like this:
 - The second A in your guess can still be found in the remaining letters of the solution => orange
 - The third A in your guess has no match in the solution now => black
 
-Not sure I would've handled all of this better in a live-coding, time-caped situation, but still - there's a lot of things
-I would've approached in a different way. So, you know how it goes, proof is in the pudding and all that - 2.5 hours later,
+Not sure I would've handled all of this better in a live-coding, time-caped situation, but still - there were also some
+other things I would've approached in a different way. So, you know how it goes, proof is in the pudding and all that - 2.5 hours later,
 here's my attempt - yet another React Wordle implementation:
 
 <DemoLink url="https://nextjs-playground-two-sigma.vercel.app/wordle" />
@@ -33,15 +33,15 @@ here's my attempt - yet another React Wordle implementation:
 
 OK, so let me now try to break down my approach:
 
-At any point during the game, the grid that gets rendered consists of three sections:
+The grid we need to render consists of three sections:
 
-- your accepted guesses - checked against the solution. These go in the top rows.
-- the current guess - always a single row, 1 to 5 letters, not accepted yet / not checked against the solution yet.
+- your accepted guesses - these are words that have already been accepted / checked against the solution and go in the top rows.
+- the current guess - always a single row, partial or full word, 1 to 5 letters, not accepted yet / not checked against the solution yet.
 - your remaining attempts - these are just blank rows
 
-So, when rendering the grid, your accepted guesses and your current guess should be taken from the internal
-component state, where ideally they have already been stored in an easy-to-use format (compared against solution,
-colors already assigned to each letter etc).
+Therefore, when rendering the grid, your accepted guesses and your current guess should be taken from the internal
+component state, where ideally they have already been stored in an easy-to-use format (for example, accepted guesses
+should already be compared against solution, colors should already be assigned to each their letters etc).
 
 To tackle this, I first defined a type that would store the state of each letter in the accepted guesses:
 
@@ -59,8 +59,12 @@ const [acceptedGuesses, setAcceptedGuesses] = useState<Array<LetterResult[]>>([]
 const [currentGuess, setCurrentGuess] = useState<string>('')
 ```
 
-Now, we need to build the game rules parser - this kicks in whenever the player submits a new word. We'll place
-this function outside of the component. It's the core part of the game, and we want to be able to easily
+Now, we need to build the game rules parser - this kicks in whenever the player submits a new word.
+We'll create a `calculateColors` function and place it outside of the component.
+After we determine that a word is valid, we'll call this function to build our next accepted guess from it,
+before we store it in the internal state of the component.
+
+This is the core part of the game, and we want to be able to easily
 test it manually and through unit tests without having to spin up the whole game:
 
 ```ts
@@ -149,7 +153,32 @@ We can now start taking user input (pressed keys):
 
 ```ts
 useEffect(() => {
-  const handleKeyDown = (e: any) => {
+  function submitGuess(guess: WordleWord) {
+    const isValidWord = UPPERCASE_WORDS.includes(guess.toUpperCase())
+    if (!isValidWord) {
+      setIsShaking(true)
+      setTimeout(() => {
+        setIsShaking(false)
+      }, 500)
+      return
+    }
+
+    const processedGuess = calculateColors(solution, guess)
+    setAcceptedGuesses([...acceptedGuesses, processedGuess])
+    setCurrentGuess('')
+
+    if (guess === solution) {
+      setGameResult('won')
+      return
+    }
+
+    if (acceptedGuesses.length === ATTEMPTS - 1) {
+      setGameResult('lost')
+      return
+    }
+  }
+
+  const handleKeyDown = (e: KeyboardEvent) => {
     const key = e.key.toUpperCase()
 
     if (currentGuess && (key === 'BACKSPACE' || key === 'DELETE')) {
@@ -177,7 +206,7 @@ useEffect(() => {
 
   window.addEventListener('keydown', handleKeyDown)
   return () => window.removeEventListener('keydown', handleKeyDown)
-}, [currentGuess])
+}, [acceptedGuesses, solution, currentGuess])
 ```
 
 All we need to do now is render the actual grid:
@@ -193,7 +222,6 @@ All we need to do now is render the actual grid:
       rows[idx] = { type: "blank" };
     }
   });
-
 
   return (
     <div className="container">
@@ -245,4 +273,6 @@ All we need to do now is render the actual grid:
   );
 ```
 
-<Image alt="Wordle" src="/static/images/wordle.png" width={437} height={603} />
+And the final result is:
+
+<Image alt="Wordle" src="/static/images/wordle.png" width={327} height={401} />
