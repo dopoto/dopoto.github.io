@@ -8,9 +8,11 @@ tags: ['React', 'Wordle']
 
 Just watched this live coding exercise video on implementing Wordle in React in 1 hour.
 
-I noticed they missed an edge-but-no-so-edge-really case: handling multiple matches
-of the same letter. For example, if the solution is `ABCAD` and your guess is `AXAXA`, the game should
-show you something like this:
+As they were wrapping up their solution (around 39 minutes in), they noticed a new case that needed to be handled: multiple matches
+of the same letter. For example, when the solution is `ABCAD` and your guess is `AXAXA` - what color is the game supposed to assign to each
+of the three A's in the guess?
+
+In the official game, you'll get something like this:
 
 <div className="flex flex-row gap-1 text-[24px] font-bold">
   <div className="flex h-[45px] w-[35px] justify-center border-1 text-center text-green-700">A</div>
@@ -24,8 +26,11 @@ show you something like this:
 - The second A in your guess can still be found in the remaining letters of the solution => orange
 - The third A in your guess has no match in the solution now => black
 
-Not sure I would've handled all of this better in a live-coding, time-caped situation, but still - there were also some
-other things I would've approached in a different way. So, you know how it goes, proof is in the pudding and all that - 2.5 hours later,
+They assumed incorrectly that you would only get either green or orange in this case and they moved on. But that got me thinking - what if you get one of these
+`But wait... what about this case?` questions as you're wrapping up your implementation - be it in a live interview or in your day-to-day? How ready is your
+code to adapt and handle the new case?
+
+So that got me thinking - how to implement the game rules in this scenario in a way that is easy to understand, to debug, to change and to unit test? 2.5 hours later,
 here's my attempt - yet another React Wordle implementation:
 
 <DemoLink url="https://nextjs-playground-two-sigma.vercel.app/wordle" />
@@ -36,7 +41,7 @@ OK, so let me now try to break down my approach:
 The grid we need to render consists of three sections:
 
 - your accepted guesses - these are words that have already been accepted / checked against the solution and go in the top rows.
-- the current guess - always a single row, partial or full word, 1 to 5 letters, not accepted yet / not checked against the solution yet.
+- your current guess - always a single row, partial or full word, 1 to 5 letters, not accepted yet / not checked against the solution yet.
 - your remaining attempts - these are just blank rows
 
 Therefore, when rendering the grid, your accepted guesses and your current guess should be taken from the internal
@@ -149,130 +154,154 @@ function calculateColors(solution: string, guess: string): LetterResult[] {
 }
 ```
 
+Before rendering the grid, we'll first need to do some hacking to force-show a keyboard on mobile devices, since we don't have any actual
+input fields on the screen that would trigger it:
+
+```ts
+  return (
+    <div className="container">
+      {/* Focusable input for mobile keyboard */}
+      <div style={{ position: "relative" }}>
+        <input
+          ref={mobileKeyboardInputRef}
+          type="text"
+          inputMode="text"
+          autoFocus
+          value={currentGuess}
+          onChange={handleInputChange}
+          onKeyDown={handleInputKeyDown}
+          maxLength={WORD_LENGTH}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: 1,
+            height: 1,
+            opacity: 0.01,
+            zIndex: 1,
+          }}
+          aria-label="Wordle input"
+        />
+        {/* Overlay to focus input on tap (for mobile reliability) - only covers the grid */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            zIndex: 0,
+          }}
+          onClick={() => mobileKeyboardInputRef.current?.focus()}
+          aria-hidden="true"
+        />
+        <div className="grid">
+        TODO
+        </div>
+      </div>
+    </div>
+  );
+```
+
 We can now start taking user input (pressed keys):
 
 ```ts
-useEffect(() => {
-  function submitGuess(guess: WordleWord) {
-    const isValidWord = UPPERCASE_WORDS.includes(guess.toUpperCase())
-    if (!isValidWord) {
-      setIsShaking(true)
-      setTimeout(() => {
-        setIsShaking(false)
-      }, 500)
-      return
-    }
-
-    const processedGuess = calculateColors(solution, guess)
-    setAcceptedGuesses([...acceptedGuesses, processedGuess])
-    setCurrentGuess('')
-
-    if (guess === solution) {
-      setGameResult('won')
-      return
-    }
-
-    if (acceptedGuesses.length === ATTEMPTS - 1) {
-      setGameResult('lost')
-      return
-    }
+function submitGuess(guess: WordleWord) {
+  const isValidWord = UPPERCASE_WORDS.includes(guess.toUpperCase())
+  if (!isValidWord) {
+    setIsShaking(true)
+    setTimeout(() => {
+      setIsShaking(false)
+    }, 500)
+    return
   }
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    const key = e.key.toUpperCase()
+  const processedGuess = calculateColors(solution, guess)
+  setAcceptedGuesses([...acceptedGuesses, processedGuess])
+  setCurrentGuess('')
 
-    if (currentGuess && (key === 'BACKSPACE' || key === 'DELETE')) {
-      setCurrentGuess((prev) => prev.slice(0, -1))
-      return
-    }
-
-    if (key === 'ENTER') {
-      if (currentGuess.length === WORD_LENGTH) {
-        submitGuess(currentGuess)
-      }
-      return
-    }
-
-    if (!'QWERTYUIOPASDFGHJKLZXCVBNM'.includes(key)) {
-      return
-    }
-
-    if (currentGuess.length >= WORD_LENGTH) {
-      return
-    }
-
-    setCurrentGuess((currentGuess) => currentGuess + key)
+  if (guess === solution) {
+    setGameResult('won')
+    return
   }
 
-  window.addEventListener('keydown', handleKeyDown)
-  return () => window.removeEventListener('keydown', handleKeyDown)
-}, [acceptedGuesses, solution, currentGuess])
+  if (acceptedGuesses.length === ATTEMPTS - 1) {
+    setGameResult('lost')
+    return
+  }
+}
+
+function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+  let value = e.target.value.toUpperCase()
+  // Only allow letters, max length
+  value = value.replace(/[^A-Z]/g, '').slice(0, WORD_LENGTH)
+  setCurrentGuess(value)
+}
+
+function handleInputKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+  if (e.key === 'Enter' && currentGuess.length === WORD_LENGTH) {
+    submitGuess(currentGuess)
+    e.preventDefault()
+  } else if ((e.key === 'Backspace' || e.key === 'Delete') && currentGuess) {
+    setCurrentGuess((prev) => prev.slice(0, -1))
+    e.preventDefault()
+  }
+}
+```
+
+Build the rows:
+
+```ts
+const rows: Record<number, { type: 'accepted' | 'current' | 'blank' }> = {}
+new Array(ATTEMPTS).fill('').forEach((_, idx) => {
+  if (acceptedGuesses[idx]) {
+    rows[idx] = { type: 'accepted' }
+  } else if (idx === acceptedGuesses.length) {
+    rows[idx] = { type: 'current' }
+  } else {
+    rows[idx] = { type: 'blank' }
+  }
+})
 ```
 
 All we need to do now is render the actual grid:
 
 ```ts
-  const rows: Record<number, { type: "accepted" | "current" | "blank" }> = {};
-  new Array(ATTEMPTS).fill("").forEach((_, idx) => {
-    if (acceptedGuesses[idx]) {
-      rows[idx] = { type: "accepted" };
-    } else if (idx === acceptedGuesses.length) {
-      rows[idx] = { type: "current" };
-    } else {
-      rows[idx] = { type: "blank" };
-    }
-  });
-
-  return (
-    <div className="container">
-      <div className="grid">
-        {Object.entries(rows).map(([key, value]) => {
-          const shakeClass =
-            isShaking && key === acceptedGuesses.length.toString()
-              ? "shake"
-              : "";
-          return (
-            <div key={key} className={`row ${shakeClass}`}>
-              {value.type === "accepted" &&
-                new Array(WORD_LENGTH).fill("").map((_, idx) => {
-                  const { color, letter } =
-                    acceptedGuesses[key as unknown as number][idx];
-                  return (
-                    <div key={`a${key}${idx}`} className={`cell ${color}`}>
-                      {letter}
-                    </div>
-                  );
-                })}
-              {value.type === "current" &&
-                new Array(WORD_LENGTH).fill("").map((_, idx) => {
-                  const letter = currentGuess.split("")[idx];
-                  return (
-                    <div key={`c${key}${idx}`} className="cell grayletter">
-                      {letter}
-                    </div>
-                  );
-                })}
-              {value.type === "blank" &&
-                new Array(WORD_LENGTH).fill("").map((_, idx) => {
-                  return <div key={`b${key}${idx}`} className="cell"></div>;
-                })}
-            </div>
-          );
-        })}
+<div className="grid">
+  {Object.entries(rows).map(([key, value]) => {
+    const shakeClass =
+      isShaking && key === acceptedGuesses.length.toString()
+        ? "shake"
+        : "";
+    return (
+      <div key={key} className={`row ${shakeClass}`}>
+        {value.type === "accepted" &&
+          new Array(WORD_LENGTH).fill("").map((_, idx) => {
+            const { color, letter } =
+              acceptedGuesses[key as unknown as number][idx];
+            return (
+              <div key={`a${key}${idx}`} className={`cell ${color}`}>
+                {letter}
+              </div>
+            );
+          })}
+        {value.type === "current" &&
+          new Array(WORD_LENGTH).fill("").map((_, idx) => {
+            const letter = currentGuess.split("")[idx];
+            return (
+              <div key={`c${key}${idx}`} className="cell grayletter">
+                {letter}
+              </div>
+            );
+          })}
+        {value.type === "blank" &&
+          new Array(WORD_LENGTH).fill("").map((_, idx) => {
+            return <div key={`b${key}${idx}`} className="cell"></div>;
+          })}
       </div>
-      {gameResult && (
-        <div className="gameresult">
-          <div>Game over, you {gameResult}!</div>
-          {gameResult === "lost" && <div>The word was {solution}.</div>}
-          <div>
-            <a onClick={startNewGame}>Start new game</a>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+    );
+  })}
+</div>
 ```
 
-And the final result is:
-
-<Image alt="Wordle" src="/static/images/wordle.png" width={327} height={401} />
+Final result: <Image alt="Wordle" src="/static/images/wordle.png" width={327} height={401} />
