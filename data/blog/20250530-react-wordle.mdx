@@ -26,27 +26,35 @@ In the official game, you'll get something like this:
 - The second A in your guess can still be found in the remaining letters of the solution => orange
 - The third A in your guess has no match in the solution now => black
 
-They assumed incorrectly that you would only get either green or orange in this case and they moved on. But that got me thinking - what if you get one of these
-`But wait... what about this case?` questions as you're wrapping up your implementation - be it in a live interview or in your day-to-day? How ready is your
-code to adapt and handle the new case?
+They assumed incorrectly that you would only get either green or orange in this case and they moved on. Still, that got me thinking about the dreaded
+question devs get all the time...
 
-So that got me thinking - how to implement the game rules in this scenario in a way that is easy to understand, to debug, to change and to unit test? 2.5 hours later,
-here's my attempt - yet another React Wordle implementation:
+## "But wait... what about this case?"
+
+How prepared are you to handle this question as you're wrapping up your implementation - be it in a live interview or in your day-to-day?
+
+How ready is your code to adapt on the spot and handle the new case?
+
+Or, in this scenario, how to implement the Wordle game rules in a way that is easy to understand, to debug, to change and to unit test?
+
+2.5 hours later, here's my attempt - yet another React Wordle implementation:
+
+## Demo time
 
 <DemoLink url="https://nextjs-playground-one-ochre.vercel.app/wordle" />
 <GitHubRepoLink url="https://github.com/dopoto/nextjs-playground/blob/master/src/app/wordle/page.tsx" />
 
-OK, so let me now try to break down my approach:
+## Approach &amp; implementation breakdown
 
-The grid we need to render consists of three sections:
+The grid we need to render consists of three types of rows:
 
-- your accepted guesses - these are words that have already been accepted / checked against the solution and go in the top rows.
-- your current guess - always a single row, partial or full word, 1 to 5 letters, not accepted yet / not checked against the solution yet.
-- your remaining attempts - these are just blank rows
+- your accepted guesses - these are words that you submitted and were accepted. They go in the top rows.
+- your current guess - always a single row, partial or full word, 1 to 5 letters, not checked against the solution by the game yet. It goes in right after the accepted guesses.
+- your remaining attempts - these are just blank rows. They go in after your current goes
 
 Therefore, when rendering the grid, your accepted guesses and your current guess should be taken from the internal
 component state, where ideally they have already been stored in an easy-to-use format (for example, accepted guesses
-should already be compared against solution, colors should already be assigned to each their letters etc).
+should already be compared against solution, colors should already be assigned to each of their letters etc).
 
 To tackle this, I first defined a type that would store the state of each letter in the accepted guesses:
 
