@@ -9,7 +9,7 @@ tags: ['React', 'Wordle']
 Just watched this live coding exercise video on implementing Wordle in React in 1 hour.
 
 As they were wrapping up their solution (around 39 minutes in), they noticed a new case that needed to be handled: multiple matches
-of the same letter. For example, when the solution is `ABCAD` and your guess is `AXAXA` - what color is the game supposed to assign to each
+of the same letter. For example, when the solution is `AYYAY` and your guess is `AXAXA` - what color is the game supposed to assign to each
 of the three A's in the guess?
 
 In the official game, you'll get something like this:
@@ -27,24 +27,27 @@ In the official game, you'll get something like this:
 - The third A in your guess has no match in the solution now => black
 
 They assumed incorrectly that you would only get either green or orange in this case and they moved on. Still, that got me thinking about the dreaded
-question devs get all the time...
+question devs get all the time:
 
-## "But wait... what about this case?"
+`But wait... what about this other case?`
 
-How prepared are you to handle this question as you're wrapping up your implementation - be it in a live interview or in your day-to-day?
-
-How ready is your code to adapt on the spot and handle the new case?
-
-Or, in this scenario, how to implement the Wordle game rules in a way that is easy to understand, to debug, to change and to unit test?
-
-2.5 hours later, here's my attempt - yet another React Wordle implementation:
+So, _a few hours later_, here's my attempt at it - yet another React Wordle implementation:
 
 ## Demo time
 
 <DemoLink url="https://nextjs-playground-one-ochre.vercel.app/wordle" />
 <GitHubRepoLink url="https://github.com/dopoto/nextjs-playground/blob/master/src/app/wordle/page.tsx" />
 
-## Approach &amp; implementation breakdown
+## Approach
+
+The idea I started from was that the core of the game - the word matching rules - should be _fully isolated_ from the rendering part.
+
+This would make it easier to debug, to change, to adapt, to later build on and to test - manually or through a set of unit tests.
+
+This way, your answer to _"But wait... what about this other case?"_ might be _"Oh, let me change the core function quickly"_, and
+not _"Hmm, I suppose we'll need to rewrite the whole component for this..."_
+
+## Implementation breakdown
 
 The grid we need to render consists of three types of rows:
 
@@ -162,8 +165,10 @@ function calculateColors(solution: string, guess: string): LetterResult[] {
 }
 ```
 
-Before rendering the grid, we'll first need to do some hacking to force-show a keyboard on mobile devices, since we don't have any actual
-input fields on the screen that would trigger it:
+## A small side quest - make it work on mobile
+
+Since there are no actual input fields on the screen that would trigger it, there's no keyboard
+popping up on mobile devices. So, before rendering the grid, we'll need to do some hacking to force it to show up:
 
 ```ts
   return (
@@ -211,7 +216,9 @@ input fields on the screen that would trigger it:
   );
 ```
 
-We can now start taking user input (pressed keys):
+## Press a key to resume...
+
+We can now start taking user input (users typing letters):
 
 ```ts
 function submitGuess(guess: WordleWord) {
