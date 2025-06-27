@@ -8,7 +8,7 @@ tags: ['React', 'Wordle']
 
 Just watched this live coding exercise video on implementing Wordle in React in 1 hour.
 
-As they were wrapping up their solution (around 39 minutes in), they noticed a new case that needed to be handled: multiple matches
+As they were wrapping up their solution (<a href="https://youtu.be/5xf4_Kx7azg?si=kbROCds9psC89-P_&t=2343">around 39 minutes in</a>), they noticed a new case that needed to be handled: multiple matches
 of the same letter. For example, when the solution is `AYYAY` and your guess is `AXAXA` - what color is the game supposed to assign to each
 of the three A's in the guess?
 
@@ -31,7 +31,7 @@ question devs get all the time:
 
 `But wait... what about this other case?`
 
-So, _a few hours later_, here's my attempt at it - yet another React Wordle implementation:
+In a live coding interview, with 20 minutes left on the clock, I don't think I would've been able to rewrite that solution to adapt to this new case... But, _a few hours later_, here's my attempt at it - yet another React Wordle implementation:
 
 ## Demo time
 
@@ -53,7 +53,7 @@ The grid we need to render consists of three types of rows:
 
 - your accepted guesses - these are words that you submitted and were accepted. They go in the top rows.
 - your current guess - always a single row, partial or full word, 1 to 5 letters, not checked against the solution by the game yet. It goes in right after the accepted guesses.
-- your remaining attempts - these are just blank rows. They go in after your current goes
+- your remaining attempts - these are just blank rows. They go in after your current guess
 
 Therefore, when rendering the grid, your accepted guesses and your current guess should be taken from the internal
 component state, where ideally they have already been stored in an easy-to-use format (for example, accepted guesses
@@ -167,8 +167,10 @@ function calculateColors(solution: string, guess: string): LetterResult[] {
 
 ## A small side quest - make it work on mobile
 
-Since there are no actual input fields on the screen that would trigger it, there's no keyboard
-popping up on mobile devices. So, before rendering the grid, we'll need to do some hacking to force it to show up:
+Normally, the game replaces your mobile keyboard with a custom keyboards that highlights matched letters, but we won't cover that part here.
+
+So, since there are no actual input fields on the screen that would trigger it, there's no keyboard
+popping up on mobile devices. Therefore, before rendering the grid, we'll need to do some hacking to force it to show up:
 
 ```ts
   return (
