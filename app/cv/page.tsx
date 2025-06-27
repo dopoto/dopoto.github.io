@@ -17,7 +17,7 @@ export default function Page() {
 
         <Link
           className="w-[140px] rounded-md bg-gray-500 p-4 text-center text-white"
-          href="/static/pdf/CV-Dorin-Potorac-Front-End-Developer-27.pdf"
+          href="/static/pdf//static/pdf/CV-Dorin-Potorac-Front-End-Developer-2025-06-27.pdf"
           download={true}
         >
           Download
