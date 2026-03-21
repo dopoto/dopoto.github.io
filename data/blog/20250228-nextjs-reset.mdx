@@ -141,3 +141,19 @@ With the fresh data/state potentially available thanks to `router.refresh()`, th
 Therefore, the combination `startTransition(() => { router.refresh(); reset(); });` provides a much more robust error recovery mechanism by
 addressing both the potential server-side root cause (`router.refresh`) and triggering the client-side re-render attempt (`reset`) in a
 non-blocking way (`startTransition`).
+
+## LATER EDIT
+
+A year later, it looks like this has been corrected in Next.js 16.2:
+
+<div style={{ backgroundColor: '#f3f4f6', border: '1px solid #d1d5db', borderRadius: '8px', padding: '12px 14px', fontStyle: 'italic' }}>
+  A new unstable_retry() prop is now available in error.tsx components. Previously, the reset() prop only cleared the error 
+  state and re-rendered the children, which works for temporary rendering errors but doesn't help when the error 
+  originates from data fetching or the RSC phase.
+
+unstable_retry() calls router.refresh() and reset() within a startTransition(), providing built-in retry logic that re-fetches
+data and re-renders the segment. This is expected to be preferred over reset() for most error recovery scenarios.
+
+</div>
+
+https://nextjs.org/blog/next-16-2#unstable_retry-in-errortsx
